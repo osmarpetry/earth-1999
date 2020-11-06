@@ -1593,7 +1593,8 @@ interface CharactersApiProps {
 function HeroesList() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
-  const pageSize = 100;
+  const [pageSize, setPageSize] = useState(20);
+  const deboucePageSize = useDebounce(pageSize, 1000)
   const [orderBy, setOderBy] = useState<OrderBy>('-modified');
   const [search, setSeach] = useState('');
   const debouceSearch = useDebounce(search, 1000);
@@ -1602,10 +1603,10 @@ function HeroesList() {
   const isMaxFavorites = favorites.length >= 5;
 
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
-    (index) => [index, orderBy, debouceSearch],
+    (index) => [index, orderBy, deboucePageSize, debouceSearch],
     (index: number) => {
       const customParams: CharactersApiProps = {
-        limit: pageSize,
+        limit: deboucePageSize,
         offset: index === 0 ? 0 : index * pageSize,
         orderBy,
       };
@@ -1660,6 +1661,19 @@ function HeroesList() {
       >
         OrderBy: {orderBy}
       </button>
+      <button onClick={() => setPageSize(pageSize)}>
+        Mostrar por pg. : {pageSize}
+      </button>
+      <input
+        placeholder="Mostrar por páginas"
+        type="number"
+        value={pageSize}
+        onChange={(event) =>
+          setPageSize(
+            parseInt(event.target.value) > 0 ? parseInt(event.target.value) : 1
+          )
+        }
+      />
       <input
         placeholder="Expect match hero"
         onChange={(event) => handleSearch(event.target.value)}
