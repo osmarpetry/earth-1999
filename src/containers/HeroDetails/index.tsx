@@ -79,6 +79,7 @@ const params = { apikey: publicKey };
 
 function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
   const [lastRelease, setLastRelease] = useState('')
+
   const { data } = useSWR<Data, AxiosError>(`${url}${match.params.id}`, (url) =>
     Axios.get(url, { params }).then((data) => data.data.data)
   );

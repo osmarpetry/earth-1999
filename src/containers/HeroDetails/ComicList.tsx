@@ -1,3 +1,4 @@
+import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import Axios, { AxiosError } from 'axios';
 import React, { useMemo } from 'react';
 import { useSWRInfinite } from 'swr';
@@ -128,6 +129,9 @@ export interface Data {
 }
 
 function ComicList({ id, onLastComicDate }: ComicListProps) {
+  const [favorites] = useLocalStorage(`favorites-comics-${id}`, []);
+  const isMaxFavorites = favorites.length >= 5;
+
   const pageSize = 10;
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
     (index) => [index, index],
@@ -160,17 +164,36 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
 
       <section style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}>
         {data?.map((pages) =>
-          pages.results.map((result) => (
-            <section style={{ margin: '0 35px 20px 35px' }}>
-              <img
-                src={result.thumbnail.path + '.' + result.thumbnail.extension}
-                alt={result.title}
-                height="220px"
-                width="150px"
-              />
-              <p style={{ maxWidth: '150px' }}>{result.title}</p>
-            </section>
-          ))
+          pages.results.map((result) => {
+            const favorited =
+              favorites.filter((favorite) => favorite === result.id).length > 0;
+            return (
+              <section style={{ margin: '0 35px 20px 35px' }}>
+                <img
+                  src={result.thumbnail.path + '.' + result.thumbnail.extension}
+                  alt={result.title}
+                  height="220px"
+                  width="150px"
+                />
+                <p style={{ maxWidth: '150px' }}>{result.title}</p>
+                <button
+                  disabled={isMaxFavorites && !favorited}
+                  onClick={() => {
+                    if (!favorited && !isMaxFavorites) {
+                      writeStorage(`favorites-comics-${id}`, [...favorites, result.id]);
+                    } else {
+                      writeStorage(
+                        `favorites-comics-${id}`,
+                        favorites.filter((favorite) => favorite !== result.id)
+                      );
+                    }
+                  }}
+                >
+                  {!favorited ? 'Favoritar' : 'Já favoritado!'}
+                </button>
+              </section>
+            );
+          })
         )}
       </section>
     </>
