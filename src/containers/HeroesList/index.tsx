@@ -1,5 +1,5 @@
 import Axios, { AxiosError } from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSWRInfinite } from 'swr';
 
 export interface Thumbnail {
@@ -83,17 +83,21 @@ interface Data {
   results: HeroesResult[];
 }
 
+type OrderBy = 'name' | '-name' | 'modified' | '-modified';
+
 function HeroesList() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
   const pageSize = 20;
+  const [orderBy, setOderBy] = useState<OrderBy>('-modified');
 
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
-    (index) => [index],
+    (index) => [index, orderBy],
     (index: number) => {
       const customParams = {
         limit: pageSize,
         offset: index === 0 ? 0 : index * pageSize,
+        orderBy,
       };
       const params = { ...customParams, apikey: publicKey };
 
@@ -110,6 +114,13 @@ function HeroesList() {
         onClick={() => setSize(size + 1)}
       >
         Heros page: {size}
+      </button>
+      <button
+        onClick={() =>
+          setOderBy(orderBy === '-modified' ? 'name' : '-modified')
+        }
+      >
+        OrderBy: {orderBy}
       </button>
       <h1>Marvel Sample App</h1>
       <section style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}>
