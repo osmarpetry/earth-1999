@@ -1598,6 +1598,8 @@ function HeroesList() {
   const debouceSearch = useDebounce(search, 1000);
   const [possibleHeroes, setPossibleHeroes] = useState<string[]>([]);
 
+  console.log('estou buscando: ', search)
+
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
     (index) => [index, orderBy, debouceSearch],
     (index: number) => {
@@ -1618,6 +1620,8 @@ function HeroesList() {
   );
 
   const handleSearch = (value: string) => {
+    setSeach(value);
+
     const possibleHero: string[] = value
       ? allHeroesIn05Nov2020.reduce(
           (accumulator: string[], currentValue: string) => {
@@ -1633,12 +1637,11 @@ function HeroesList() {
             }
             return accumulator;
           },
-          []
+          [value]
         )
-      : [];
+      : [value];
 
     setPossibleHeroes(possibleHero);
-    setSeach(possibleHero[0]);
   };
 
   return (
