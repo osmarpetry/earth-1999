@@ -128,7 +128,7 @@ export interface Data {
 }
 
 function ComicList({ id, onLastComicDate }: ComicListProps) {
-  const pageSize = 20;
+  const pageSize = 10;
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
     (index) => [index, index],
     (index: number) => {
