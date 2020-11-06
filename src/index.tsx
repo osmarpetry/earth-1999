@@ -1,20 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { SWRConfig } from 'swr';
 
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
-import { SWRConfig } from 'swr';
+import HeroDetails from 'containers/HeroDetails';
 
 ReactDOM.render(
   <React.StrictMode>
     <SWRConfig
       value={{
         revalidateOnFocus: false,
-        revalidateOnReconnect: false,
+        revalidateOnReconnect: false
       }}
     >
-      <App />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/hero/:id" component={HeroDetails} />
+        </Switch>
+      </BrowserRouter>
     </SWRConfig>
   </React.StrictMode>,
   document.getElementById('root')

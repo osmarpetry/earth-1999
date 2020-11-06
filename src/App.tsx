@@ -1,6 +1,6 @@
 import Axios, { AxiosError } from 'axios';
 import React from 'react';
-import useSWR, { useSWRInfinite } from 'swr';
+import { useSWRInfinite } from 'swr';
 
 export interface Thumbnail {
   path: string;
@@ -86,18 +86,18 @@ interface Data {
 function App() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
+  const pageSize = 20;
 
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
     (index) => [index],
     (index: number) => {
       const customParams = {
-        limit: 20,
-        offset: index === 0 ? 0 : index * 20,
+        limit: pageSize,
+        offset: index === 0 ? 0 : index * pageSize,
       };
       const params = { ...customParams, apikey: publicKey };
 
       return Axios.get(url, { params: params }).then((response) => {
-        // - Parse and return the response.
         return response.data.data;
       });
     }
@@ -105,14 +105,17 @@ function App() {
 
   return (
     <section>
-      <button onClick={() => setSize(size + 1)}>Page: {size / 20}</button>
-      <h1>Marvel Sample App</h1>
-      <section
-        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}
+      <button
+        disabled={data && data[0].total <= size * pageSize}
+        onClick={() => setSize(size + 1)}
       >
+        Heros page: {size}
+      </button>
+      <h1>Marvel Sample App</h1>
+      <section style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}>
         {data?.map((heros) =>
           heros.results.map((hero) => (
-            <section style={{margin: '0 35px 20px 35px'}}>
+            <section style={{ margin: '0 35px 20px 35px' }}>
               <a href={`/hero/${hero.id}`}>
                 <img
                   src={hero.thumbnail.path + '.' + hero.thumbnail.extension}
