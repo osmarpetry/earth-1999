@@ -1,5 +1,5 @@
 import Axios, { AxiosError } from 'axios';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSWRInfinite } from 'swr';
 
 interface ComicListProps {

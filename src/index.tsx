@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr';
 
 import reportWebVitals from './reportWebVitals';
 
-import App from './App';
+import HeroesList from './containers/HeroesList';
 import HeroDetails from 'containers/HeroDetails';
 
 ReactDOM.render(
@@ -18,7 +18,7 @@ ReactDOM.render(
     >
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={App} />
+          <Route exact path="/" component={HeroesList} />
           <Route path="/hero/:id" component={HeroDetails} />
         </Switch>
       </BrowserRouter>

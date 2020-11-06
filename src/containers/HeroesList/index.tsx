@@ -83,7 +83,7 @@ interface Data {
   results: HeroesResult[];
 }
 
-function App() {
+function HeroesList() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
   const pageSize = 20;
@@ -133,4 +133,4 @@ function App() {
   );
 }
 
-export default App;
+export default HeroesList;
