@@ -1,3 +1,4 @@
+import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import Axios, { AxiosError } from 'axios';
 import useDebounce from 'core/utils/hooks/useDebounce';
 import React, { useState } from 'react';
@@ -1597,8 +1598,8 @@ function HeroesList() {
   const [search, setSeach] = useState('');
   const debouceSearch = useDebounce(search, 1000);
   const [possibleHeroes, setPossibleHeroes] = useState<string[]>([]);
-
-  console.log('estou buscando: ', search)
+  const [favorites] = useLocalStorage(`favorites`, []);
+  const isMaxFavorites = favorites.length >= 5;
 
   const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
     (index) => [index, orderBy, debouceSearch],
@@ -1669,19 +1670,38 @@ function HeroesList() {
       <h1>Marvel Sample App</h1>
       <section style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}>
         {data?.map((heros) =>
-          heros.results.map((hero) => (
-            <section key={hero.id} style={{ margin: '0 35px 20px 35px' }}>
-              <a href={`/hero/${hero.id}`}>
-                <img
-                  src={hero.thumbnail.path + '.' + hero.thumbnail.extension}
-                  alt={`${hero.name} avatar`}
-                  height="221px"
-                  width="221px"
-                />
-                <p>{hero.name}</p>
-              </a>
-            </section>
-          ))
+          heros.results.map((hero) => {
+            const favorited =
+              favorites.filter((favorite) => favorite === hero.id).length > 0;
+            return (
+              <section key={hero.id} style={{ margin: '0 35px 20px 35px' }}>
+                <a href={`/hero/${hero.id}`}>
+                  <img
+                    src={hero.thumbnail.path + '.' + hero.thumbnail.extension}
+                    alt={`${hero.name} avatar`}
+                    height="221px"
+                    width="221px"
+                  />
+                  <p>{hero.name}</p>
+                </a>
+                <button
+                  disabled={isMaxFavorites && !favorited}
+                  onClick={() => {
+                    if (!favorited && !isMaxFavorites) {
+                      writeStorage(`favorites`, [...favorites, hero.id]);
+                    } else {
+                      writeStorage(
+                        'favorites',
+                        favorites.filter((favorite) => favorite !== hero.id)
+                      );
+                    }
+                  }}
+                >
+                  {!favorited ? 'Favoritar' : 'Já favoritado!'}
+                </button>
+              </section>
+            );
+          })
         )}
       </section>
     </section>
