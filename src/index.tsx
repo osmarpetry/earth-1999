@@ -4,10 +4,18 @@ import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
+import { SWRConfig } from 'swr';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SWRConfig
+      value={{
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+      }}
+    >
+      <App />
+    </SWRConfig>
   </React.StrictMode>,
   document.getElementById('root')
 );
