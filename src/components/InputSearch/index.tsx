@@ -10,12 +10,36 @@ const InputWrapper = styled.div`
 
   input {
     width: 100%;
+    height: 100%;
     padding-left: 60px;
   }
 
   img {
     position: absolute;
     left: 20px;
+    pointer-events: none;
+  }
+
+  label {
+    position: absolute;
+    color: #ff0000;
+    font-weight: 600;
+    left: 56px;
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+
+  input:focus + label {
+    transform: translate(-35px, -33px);
+    font-size: 20px;
+    color: #ff0000;
+  }
+
+  input:not(:placeholder-shown) + label {
+    transform: translate(-35px, -33px);
+    font-size: 20px;
+    color: #ff0000;
+    white-space: nowrap;
   }
 `;
 
@@ -25,19 +49,31 @@ const StyledInput = styled.input`
   border: none;
   background-color: #fdecec;
   padding: 15px;
-  color: #fa7c7c;
+  color: #ff0000;
   font-weight: 600;
-
-  &::placeholder {
-    color: #fa7c7c;
-  }
 `;
 
-export default function SearchInput() {
+export interface SearchInputProps {
+  value: string;
+  label: string;
+  name: string;
+  onChange?: (value: string) => void;
+}
+
+export default function SearchInput({
+  label,
+  name,
+  onChange,
+}: SearchInputProps) {
   return (
     <InputWrapper>
       <img src={SearchIcon} alt="Input search logo" />
-      <StyledInput placeholder="Buscar herói" />
+      <StyledInput
+        placeholder=' '
+        name={name}
+        onChange={(event) => onChange && onChange(event.target.value)}
+      />
+      <label htmlFor={name}>{label}</label>
     </InputWrapper>
   );
 }
