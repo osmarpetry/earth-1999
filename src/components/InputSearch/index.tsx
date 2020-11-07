@@ -56,13 +56,13 @@ const StyledInput = styled.input`
 export interface SearchInputProps {
   value: string;
   label: string;
-  name: string;
+  name?: string;
   onChange?: (value: string) => void;
 }
 
 export default function SearchInput({
   label,
-  name,
+  name = 'search',
   onChange,
 }: SearchInputProps) {
   return (
