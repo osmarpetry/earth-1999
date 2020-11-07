@@ -39,6 +39,11 @@ const CheckBoxToggleStyled = styled.input`
   }
 `;
 
-export default function CheckboxToggle() {
-  return <CheckBoxToggleStyled type="checkbox" />;
+export interface CheckboxToggleProps {
+  checked?: boolean
+  onClick?: () => void
+}
+
+export default function CheckboxToggle({checked, onClick}: CheckboxToggleProps) {
+  return <CheckBoxToggleStyled type="checkbox" checked={checked} onClick={onClick} />;
 }
