@@ -3,12 +3,16 @@ import Axios, { AxiosError } from 'axios';
 import CheckboxToggle from 'components/CheckboxToggle';
 import HeroCard from 'components/HeroCard';
 import SearchInput from 'components/InputSearch';
+import SectionHeader from 'components/SectionHeader';
 import useDebounce from 'core/utils/hooks/useDebounce';
 import React, { useState } from 'react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import styled from 'styled-components';
 import { useSWRInfinite } from 'swr';
+import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
+import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 
-const Hero = 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
+import ButtonHeart from 'components/ButtonHeart';
 
 const allHeroesIn05Nov2020 = [
   'Hulk',
@@ -1596,6 +1600,41 @@ interface CharactersApiProps {
   name?: string;
 }
 
+const SpanRightColumn = styled.span`
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+`;
+
+const CheckboxChildren = styled(SpanRightColumn)`
+  p {
+    margin-left: 10px;
+  }
+`;
+
+const SectionHeaderStyled = styled.header`
+  margin: 20px 40px;
+`;
+
+const SectionHeader2 = styled.section`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  div {
+    margin: 30px 0;
+  }
+`;
+
 function HeroesList() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
@@ -1677,62 +1716,84 @@ function HeroesList() {
   });
 
   return (
-    <section>
-      <div>
-        <h1>EXPLORE O UNIVERSO</h1>
-        <p>
-          Mergule no domínio deslubrante de todos os personagens clássicos que
-          você ama - e aqueles que você descobrirá em breve!
-        </p>
-        <SearchInput
-          value={search}
-          name="hero-search"
-          label="Procure por heróis"
-          sugestions={possibleHeroes}
-          onChange={(value) => handleSearch(value)}
-          onSugestionClick={(sugestion) => setSeach(sugestion)}
-        />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div>
+      <SectionHeader2>
+        <header>
+          <MarvelHeaderLogo width="228px" />
+          <h1>EXPLORE O UNIVERSO</h1>
+        </header>
+        <main>
+          <p>
+            Mergule no domínio deslubrante de todos os personagens clássicos que
+            você ama - e aqueles que você descobrirá em breve!
+          </p>
           <div>
-            <p>Encontrados {pageSize * (data?.length || 1)} heróis </p>
-          </div>
-          <div>
-            <img src={Hero} alt="Hero icon" />
-            <p>Ordernar por nome - A/Z</p>
-            <CheckboxToggle
-              checked={orderBy.includes('name')}
-              onClick={handleOrderBy}
+            <SearchInput
+              value={search}
+              name="hero-search"
+              label="Procure por heróis"
+              sugestions={possibleHeroes}
+              onChange={(value) => handleSearch(value)}
+              onSugestionClick={(sugestion) => setSeach(sugestion)}
             />
           </div>
-        </div>
-      </div>
-      <section
-        style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}
-        ref={infiniteRef as any}
-      >
-        {data?.map((heros) =>
-          heros.results.map((hero) => {
-            const favorited =
-              favorites.filter((favorite) => favorite === hero.id).length > 0;
-            const disabled = isMaxFavorites && !favorited;
-            return (
-              <HeroCard
-                height="210px"
-                width="210px"
-                alt={hero.name}
-                linkTo={`hero/${hero.id}`}
-                imageSrc={hero.thumbnail.path + '.' + hero.thumbnail.extension}
-                name={hero.name}
-                favorite={favorited}
-                disabled={disabled}
-                onClick={() => handleButtonClick(favorited, hero.id)}
-                key={hero.id}
-              />
-            );
-          })
-        )}
+        </main>
+      </SectionHeader2>
+      <section ref={infiniteRef as any}>
+        <SectionHeaderStyled>
+        <SectionHeader
+          leftColumn={
+            <p>Encontrados {pageSize * (data?.length || 1)} heróis </p>
+          }
+          rightColumn={
+            <>
+              <SpanRightColumn>
+                <CheckboxToggle
+                  checked={orderBy.includes('name')}
+                  onClick={handleOrderBy}
+                >
+                  <CheckboxChildren>
+                    <HeroLogo />
+                    <p>Ordernar por nome - A/Z</p>
+                  </CheckboxChildren>
+                </CheckboxToggle>
+              </SpanRightColumn>
+              <SpanRightColumn>
+                <ButtonHeart disabled={false} value={true}>
+                  Somente Favoritos
+                </ButtonHeart>
+              </SpanRightColumn>
+            </>
+          }
+        />
+        </SectionHeaderStyled>
+        <main style={{ display: 'flex', flexWrap: 'wrap',  justifyContent: 'space-between', margin: '0 40px' }}>
+          {data?.map((heros) =>
+            heros.results.map((hero) => {
+              const favorited =
+                favorites.filter((favorite) => favorite === hero.id).length > 0;
+              const disabled = isMaxFavorites && !favorited;
+              return (
+                <HeroCard
+                  height="210px"
+                  width="210px"
+                  alt={hero.name}
+                  linkTo={`hero/${hero.id}`}
+                  imageSrc={
+                    hero.thumbnail.path + '.' + hero.thumbnail.extension
+                  }
+                  name={hero.name}
+                  favorite={favorited}
+                  disabled={disabled}
+                  onClick={() => handleButtonClick(favorited, hero.id)}
+                  key={hero.id}
+                />
+              );
+            })
+          )}
+        </main>
       </section>
-    </section>
+    </div>
   );
 }
 

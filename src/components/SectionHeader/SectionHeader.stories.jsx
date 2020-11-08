@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Story, Meta } from '@storybook/react/types-6-0';
 
-import SectionHeader, { SectionHeaderProps } from 'components/SectionHeader';
+import SectionHeader from 'components/SectionHeader';
 import CheckboxToggle from 'components/CheckboxToggle';
 
 import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
 import ButtonHeart from 'components/ButtonHeart';
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: 'Components/SectionHeader',
   component: SectionHeader,
-} as Meta;
+};
 
-const Template: Story<SectionHeaderProps> = (args) => (
+const Template = (args) => (
   <SectionHeader {...args} />
 );
 
@@ -51,6 +51,6 @@ const RightColumn = () => (
   </>
 );
 Primary.args = {
-  leftColumn: LeftColumn,
-  rightColumn: RightColumn,
+  leftColumn: <LeftColumn />,
+  rightColumn: <RightColumn />,
 };
