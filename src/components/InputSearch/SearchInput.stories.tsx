@@ -24,3 +24,20 @@ Sugestions.args = {
   isSugestionsOpen: true,
   sugestions: ['hul', 'Hulk', 'She-Hulk']
 };
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+  label: 'Buscar herói',
+  name: 'seach',
+  isSecondary: true
+};
+
+export const SugestionsSecondary = Template.bind({});
+SugestionsSecondary.args = {
+  label: 'Buscar herói',
+  name: 'seach',
+  value: 'hul',
+  isSugestionsOpen: true,
+  sugestions: ['hul', 'Hulk', 'She-Hulk'],
+  isSecondary: true
+};
