@@ -185,8 +185,6 @@ function HeroesList() {
     onLoadMore: () => setSize(size + 1),
   });
 
-  console.log(data);
-
   return (
     <div>
       <SectionHeader2>
@@ -208,6 +206,7 @@ function HeroesList() {
               onChange={(value) => handleSearch(value)}
               sugestions={possibleHeroes}
               value={search}
+              onInputFocus={() => setIsSugestionOpen(true)}
               onSugestionsCloseClick={(sugestion) => {
                 setIsSugestionOpen(false);
                 setSeach(sugestion ? sugestion.name : search);

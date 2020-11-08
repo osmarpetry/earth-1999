@@ -178,6 +178,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
           value={search}
           placeholder="Digite o nome de uma heroína ou herói..."
           onChange={(value) => handleSearch(value)}
+          onInputFocus={() => setIsSugestionOpen(true)}
           onSugestionsCloseClick={(sugestion) => {
             setIsSugestionOpen(false);
             setSeach(sugestion ? sugestion.name : search);

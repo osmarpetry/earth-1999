@@ -97,6 +97,7 @@ export interface SearchInputProps {
   sugestions?: AllHeroes[];
   value: string;
   onChange?: (value: string) => void;
+  onInputFocus?: () => void;
   onSugestionsCloseClick?: (sugestion: AllHeroes | undefined) => void;
 }
 
@@ -137,31 +138,42 @@ export default function SearchInput({
   name = 'search',
   sugestions,
   onChange,
+  onInputFocus,
   onSugestionsCloseClick,
 }: SearchInputProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  useOutsideAlerter(wrapperRef, () => onSugestionsCloseClick && onSugestionsCloseClick(undefined));
+  useOutsideAlerter(
+    wrapperRef,
+    () => onSugestionsCloseClick && onSugestionsCloseClick(undefined)
+  );
+
+  const isSugestionOpen =
+    isSugestionsOpen &&
+    sugestions &&
+    sugestions?.length > 0 &&
+    sugestions[0].name;
 
   return (
     <div style={{ position: 'relative', width: '100%' }} ref={wrapperRef}>
       <InputWrapper className="input" isSecondary={isSecondary}>
         <img src={SearchIcon} alt="Input search logo" />
         <StyledInput
+          onFocus={onInputFocus}
           isSecondary={isSecondary}
-          isSugestionsOpen={isSugestionsOpen}
+          isSugestionsOpen={isSugestionOpen ? true : false}
           placeholder={placeholder}
           name={name}
           onChange={(event) => onChange && onChange(event.target.value)}
         />
         <label htmlFor={name}>{label}</label>
       </InputWrapper>
-      {isSugestionsOpen && sugestions && sugestions?.length > 1 && (
+      {isSugestionOpen && (
         <SugestionsList
           isSecondary={isSecondary}
           style={{ position: 'absolute', width: '100%' }}
         >
-          {sugestions.map((sugestion) => (
-            <li key={sugestion.id}>
+          {sugestions && sugestions.map((sugestion) => (
+            <li key={sugestion.name}>
               {typeof sugestion.id === 'number' ? (
                 <SugestionButtonItem
                   to={`/hero/${sugestion.id}`}
