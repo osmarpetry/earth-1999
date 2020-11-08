@@ -3,7 +3,6 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios, { AxiosError } from 'axios';
 import useSWR from 'swr';
-import { format } from 'date-fns';
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 
 import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
@@ -11,13 +10,10 @@ import colors from 'core/assets/styles/colors';
 
 import ComicList from './ComicList';
 
-import ButtonHeart from 'components/ButtonHeart';
-import ItemWithDescription from 'components/ItemWithDescription';
+import HeroDetailsComponent from 'components/HeroDetails'
 import SearchInput from 'components/InputSearch';
 
-import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
-import { ReactComponent as MovieLogo } from 'assets/icones/video/Shape@1,5x.svg';
 
 import { Hero } from './model';
 import responsive from 'core/assets/styles/responsive';
@@ -91,16 +87,6 @@ const Section = styled.section`
   width: 100%;
 `;
 
-const Img = styled.img`
-  height: 340px;
-  width: 310px;
-
-  @media only screen and (max-width: ${responsive.mobile}) {
-    height: 100%;
-    width: 100%;
-    align-self: center;
-  }
-`;
 
 interface HeroDetailsProps {
   id: string;
@@ -186,60 +172,13 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         />
       </StyledHeader>
       <StyledMain style={{ marginBottom: '70px' }}>
-        <div>
-          {hero?.thumbnail && (
-            <Img
-              style={{ borderRadius: '5px' }}
-              src={hero?.thumbnail.path + '.' + hero?.thumbnail.extension}
-              alt={hero.name}
-            />
-          )}
-        </div>
-        <div className="left">
-          <span style={{ display: 'flex', alignItems: 'center' }}>
-            <h1>{hero?.name}</h1>
-            <ButtonHeart
-              value={favorited}
-              disabled={disabled}
-              onClick={() => handleButtonClick(favorited, hero?.id || 0)}
-            />
-          </span>
-          <p>
-            {hero?.description
-              ? hero?.description
-              : `No description availble to: ${hero?.name} D=`}
-          </p>
-
-          {hero && (
-            <div style={{ marginTop: '15px' }}>
-              <div style={{ display: 'flex' }}>
-                <div style={{ marginRight: '50px' }}>
-                  <ItemWithDescription
-                    itemName="Quadrinhos"
-                    hasTwoLines
-                    description={hero?.comics.available}
-                    descriptionLogo={<HQLogo />}
-                  />
-                </div>
-                <ItemWithDescription
-                  itemName="Eventos"
-                  hasTwoLines
-                  description={hero?.events.available}
-                  descriptionLogo={<MovieLogo />}
-                />
-              </div>
-              {lastRelease && (
-                <ItemWithDescription
-                  itemName="Último lançamento"
-                  description={format(
-                    new Date(lastRelease) || new Date(),
-                    'dd MMM. yyyy'
-                  )}
-                />
-              )}
-            </div>
-          )}
-        </div>
+        <HeroDetailsComponent
+          hero={hero}
+          favorited={favorited}
+          disabled={disabled}
+          handleButtonClick={handleButtonClick}
+          lastRelease={lastRelease}
+        />
       </StyledMain>
       <StyledFooter>
         <h3>
