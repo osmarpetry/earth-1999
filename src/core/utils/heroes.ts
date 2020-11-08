@@ -1,4 +1,9 @@
-export const allHeroesIn08Nov2020: {id: number, name: string}[] = [
+export interface AllHeroes {
+  id: number | undefined
+  name: string
+}
+
+export const allHeroesIn08Nov2020: AllHeroes[] = [
   {
     "id": 1011334,
     "name": "3-D Man"

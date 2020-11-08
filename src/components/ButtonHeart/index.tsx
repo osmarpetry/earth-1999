@@ -1,6 +1,7 @@
-import colors from 'core/assets/styles/colors';
 import React from 'react';
 import styled, { css } from 'styled-components';
+
+import colors from 'core/assets/styles/colors';
 
 const HeartIcon = ({ fill }: { fill: string }) => (
   <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
@@ -30,11 +31,10 @@ const HeartIcon = ({ fill }: { fill: string }) => (
   </svg>
 );
 
-const ButtonStyled = styled.button<{ color: string, isDisabled: boolean }>`
+const ButtonStyled = styled.button<{ color: string; isDisabled: boolean }>`
   background: none;
   border: none;
-  color: ${({color}) => color};
-  cursor: pointer;
+  color: ${({ color }) => color};
   display: flex;
   justify-items: center;
   outline: none;
@@ -54,7 +54,7 @@ const ButtonStyled = styled.button<{ color: string, isDisabled: boolean }>`
 export interface ButtonHeartProps {
   value: boolean;
   disabled: boolean;
-  children?: unknown
+  children?: unknown;
   onClick?: () => void;
 }
 
@@ -65,7 +65,12 @@ export default function ButtonHeart({
   onClick,
 }: ButtonHeartProps) {
   return (
-    <ButtonStyled color={colors.primary} onClick={onClick} disabled={disabled} isDisabled={disabled}>
+    <ButtonStyled
+      color={colors.primary}
+      onClick={onClick}
+      disabled={disabled}
+      isDisabled={disabled}
+    >
       <HeartIcon fill={value ? colors.primary : 'none'} />
       {children}
     </ButtonStyled>

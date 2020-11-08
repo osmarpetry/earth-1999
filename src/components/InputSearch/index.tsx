@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
-import { Link } from 'react-router-dom';
+import { AllHeroes } from 'core/utils/heroes';
+
 import colors from 'core/assets/styles/colors';
 import sizes from 'core/assets/styles/sizes';
 import fonts from 'core/assets/styles/fonts';
+
+import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
 
 const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
@@ -80,7 +83,7 @@ export interface SearchInputProps {
   label: string;
   placeholder: string
   name?: string;
-  sugestions?: { id: number | undefined; name: string }[];
+  sugestions?: AllHeroes[];
   value: string;
   onChange?: (value: string) => void;
   onSugestionClick?: (sugestions: string) => void;

@@ -1,6 +1,7 @@
-import colors from 'core/assets/styles/colors';
 import React from 'react';
 import styled from 'styled-components';
+
+import colors from 'core/assets/styles/colors';
 
 const SectionHeaderWrapper = styled.div`
   display: flex;

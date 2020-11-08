@@ -1,100 +1,31 @@
-import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
+import React, { useState } from 'react';
 import Axios, { AxiosError } from 'axios';
+import { useSWRInfinite } from 'swr';
+import styled from 'styled-components';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
+import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
+
+import useDebounce from 'core/utils/hooks/useDebounce';
+import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
+
+import ButtonHeart from 'components/ButtonHeart';
 import CheckboxToggle from 'components/CheckboxToggle';
 import HeroCard from 'components/HeroCard';
 import SearchInput from 'components/InputSearch';
 import SectionHeader from 'components/SectionHeader';
-import useDebounce from 'core/utils/hooks/useDebounce';
-import React, { useState } from 'react';
-import useInfiniteScroll from 'react-infinite-scroll-hook';
-import styled from 'styled-components';
-import { useSWRInfinite } from 'swr';
+
 import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 
-import ButtonHeart from 'components/ButtonHeart';
-import { Hero } from 'containers/HeroDetails';
-import { allHeroesIn08Nov2020 } from './heroes';
 
-export interface Thumbnail {
-  path: string;
-  extension: string;
-}
-
-export interface Item {
-  resourceURI: string;
-  name: string;
-}
-
-export interface Comics {
-  available: number;
-  collectionURI: string;
-  items: Item[];
-  returned: number;
-}
-
-export interface Item2 {
-  resourceURI: string;
-  name: string;
-}
-
-export interface Series {
-  available: number;
-  collectionURI: string;
-  items: Item2[];
-  returned: number;
-}
-
-export interface Item3 {
-  resourceURI: string;
-  name: string;
-  type: string;
-}
-
-export interface Stories {
-  available: number;
-  collectionURI: string;
-  items: Item3[];
-  returned: number;
-}
-
-export interface Item4 {
-  resourceURI: string;
-  name: string;
-}
-
-export interface Events {
-  available: number;
-  collectionURI: string;
-  items: Item4[];
-  returned: number;
-}
-
-export interface Url {
-  type: string;
-  url: string;
-}
-
-interface HeroesResult {
-  id: number;
-  name: string;
-  description: string;
-  modified: Date;
-  thumbnail: Thumbnail;
-  resourceURI: string;
-  comics: Comics;
-  series: Series;
-  stories: Stories;
-  events: Events;
-  urls: Url[];
-}
+import { Hero } from './model';
 
 interface Data {
   offset: 0;
   limit: 20;
   total: 1493;
   count: 20;
-  results: HeroesResult[];
+  results: Hero[];
 }
 
 type OrderBy = 'name' | '-name' | 'modified' | '-modified';
@@ -171,11 +102,11 @@ function HeroesList() {
   const handleSearch = (value: string) => {
     setSeach(value);
 
-    const possibleHero: { id: number; name: string }[] = value
+    const possibleHero: AllHeroes[] = value
       ? allHeroesIn08Nov2020.reduce(
           (
-            accumulator: { id: number; name: string }[],
-            currentValue: { id: number; name: string }
+            accumulator: AllHeroes[],
+            currentValue: AllHeroes
           ) => {
             if (accumulator.length > 14) {
               return accumulator;
@@ -241,7 +172,7 @@ function HeroesList() {
           </p>
           <div style={{ marginTop: '30px' }}>
             <SearchInput
-                    placeholder="Digite o nome de uma heroína ou herói..."
+              placeholder="Digite o nome de uma heroína ou herói..."
               isSugestionsOpen={isSugestionsOpen}
               label="Procure por heroínas ou heróis"
               name="hero-search"
@@ -260,7 +191,9 @@ function HeroesList() {
         <SectionHeaderStyled>
           <SectionHeader
             leftColumn={
-              <p>Encontrados {pageSize * (data?.length || 1)} heroínas e heróis </p>
+              <p>
+                Encontrados {pageSize * (data?.length || 1)} heroínas e heróis{' '}
+              </p>
             }
             rightColumn={
               <>

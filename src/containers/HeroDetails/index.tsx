@@ -1,19 +1,23 @@
-import Axios, { AxiosError } from 'axios';
-import ItemWithDescription from 'components/ItemWithDescription';
 import React, { useState } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import Axios, { AxiosError } from 'axios';
 import useSWR from 'swr';
-import ComicList from './ComicList';
-import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg';
-import { ReactComponent as MovieLogo } from 'assets/icones/video/Shape@1,5x.svg';
 import { format } from 'date-fns';
-import ButtonHeart from 'components/ButtonHeart';
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
-import SearchInput from 'components/InputSearch';
-import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
-import { allHeroesIn08Nov2020 } from 'containers/HeroesList/heroes';
+
+import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
 import colors from 'core/assets/styles/colors';
+
+import ComicList from './ComicList';
+
+import ButtonHeart from 'components/ButtonHeart';
+import ItemWithDescription from 'components/ItemWithDescription';
+import SearchInput from 'components/InputSearch';
+
+import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg';
+import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
+import { ReactComponent as MovieLogo } from 'assets/icones/video/Shape@1,5x.svg';
 
 interface HeroDetailsProps {
   id: string;
@@ -152,11 +156,11 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
   const handleSearch = (value: string) => {
     setSeach(value);
 
-    const possibleHero: { id: number; name: string }[] = value
+    const possibleHero: AllHeroes[] = value
       ? allHeroesIn08Nov2020.reduce(
           (
-            accumulator: { id: number; name: string }[],
-            currentValue: { id: number; name: string }
+            accumulator: AllHeroes[],
+            currentValue: AllHeroes
           ) => {
             if (accumulator.length > 14) {
               return accumulator;

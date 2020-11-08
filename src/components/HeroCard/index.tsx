@@ -1,9 +1,11 @@
-import ButtonHeart from 'components/ButtonHeart';
-import colors from 'core/assets/styles/colors';
-import fonts from 'core/assets/styles/fonts';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import ButtonHeart from 'components/ButtonHeart';
+
+import colors from 'core/assets/styles/colors';
+import fonts from 'core/assets/styles/fonts';
 
 const HeroCardStyled = styled.section<{ width: string }>`
   padding: 0;

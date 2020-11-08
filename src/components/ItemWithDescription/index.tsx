@@ -1,6 +1,7 @@
-import colors from 'core/assets/styles/colors';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+
+import colors from 'core/assets/styles/colors';
 
 export interface ItemWithDescriptionProps {
   description?: string | number;
