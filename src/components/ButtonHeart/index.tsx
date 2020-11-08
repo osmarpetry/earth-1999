@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const HeartIcon = ({ fill }: { fill: string }) => (
   <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
@@ -29,26 +29,44 @@ const HeartIcon = ({ fill }: { fill: string }) => (
   </svg>
 );
 
-const ButtonStyled = styled.button`
+const ButtonStyled = styled.button<{ color: string, isDisabled: boolean }>`
   background: none;
-  outline: none;
   border: none;
+  color: ${({color}) => color};
   cursor: pointer;
+  display: flex;
+  justify-items: center;
+  outline: none;
   transition: all 4s ease;
+
+  svg:first-child {
+    margin-right: 10px;
+  }
+
+  ${({ isDisabled }) =>
+    isDisabled &&
+    css`
+      opacity: 0.4;
+    `}
 `;
 
 export interface ButtonHeartProps {
   value: boolean;
-  onChange?: () => void;
+  disabled: boolean;
+  children?: unknown
+  onClick?: () => void;
 }
 
 export default function ButtonHeart({
+  children,
+  disabled,
   value,
-  onChange,
+  onClick,
 }: ButtonHeartProps) {
   return (
-    <ButtonStyled onClick={onChange}>
+    <ButtonStyled color='red' onClick={onClick} disabled={disabled} isDisabled={disabled}>
       <HeartIcon fill={value ? 'red' : 'none'} />
+      {children}
     </ButtonStyled>
   );
 }

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const CheckBoxToggleStyled = styled.input`
   position: relative;
+  margin-left: 10px;
   width: 40px;
   height: 20px;
   appearance: none;
@@ -39,11 +40,33 @@ const CheckBoxToggleStyled = styled.input`
   }
 `;
 
+const CheckboxTogleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export interface CheckboxToggleProps {
-  checked?: boolean
-  onClick?: () => void
+  checked?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
 }
 
-export default function CheckboxToggle({checked, onClick}: CheckboxToggleProps) {
-  return <CheckBoxToggleStyled type="checkbox" checked={checked} onClick={onClick} />;
+export default function CheckboxToggle({
+  checked,
+  children,
+  onClick,
+}: CheckboxToggleProps) {
+  return (
+    <CheckboxTogleWrapper>
+      <label htmlFor="checkbox">{children && children}</label>
+      <CheckBoxToggleStyled
+        type="checkbox"
+        name="checkbox"
+        defaultChecked={false}
+        defaultValue="Teste"
+        checked={checked}
+        onClick={onClick}
+      />
+    </CheckboxTogleWrapper>
+  );
 }
