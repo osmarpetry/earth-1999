@@ -45,7 +45,6 @@ const StyledMain = styled.main`
     @media only screen and (max-width: ${responsive.mobile}) {
       margin-top: 30px;
       max-width: 100%;
-
     }
 
     h1 {
@@ -179,9 +178,9 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
           value={search}
           placeholder="Digite o nome de uma heroína ou herói..."
           onChange={(value) => handleSearch(value)}
-          onSugestionClick={(sugestion) => {
+          onSugestionsCloseClick={(sugestion) => {
             setIsSugestionOpen(false);
-            setSeach(sugestion);
+            setSeach(sugestion ? sugestion.name : search);
           }}
         />
       </StyledHeader>

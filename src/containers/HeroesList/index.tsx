@@ -208,9 +208,9 @@ function HeroesList() {
               onChange={(value) => handleSearch(value)}
               sugestions={possibleHeroes}
               value={search}
-              onSugestionClick={(sugestion) => {
+              onSugestionsCloseClick={(sugestion) => {
                 setIsSugestionOpen(false);
-                setSeach(sugestion);
+                setSeach(sugestion ? sugestion.name : search);
               }}
             />
           </div>

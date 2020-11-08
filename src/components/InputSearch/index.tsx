@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
@@ -10,6 +10,7 @@ import fonts from 'core/assets/styles/fonts';
 
 import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
 import responsive from 'core/assets/styles/responsive';
+import useOutsideAlerter from 'core/utils/hooks/useOutsideAlerter';
 
 const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
@@ -96,7 +97,7 @@ export interface SearchInputProps {
   sugestions?: AllHeroes[];
   value: string;
   onChange?: (value: string) => void;
-  onSugestionClick?: (sugestions: string) => void;
+  onSugestionsCloseClick?: (sugestion: AllHeroes | undefined) => void;
 }
 
 const SugestionsList = styled.ul<{ isSecondary: boolean }>`
@@ -136,10 +137,13 @@ export default function SearchInput({
   name = 'search',
   sugestions,
   onChange,
-  onSugestionClick,
+  onSugestionsCloseClick,
 }: SearchInputProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  useOutsideAlerter(wrapperRef, () => onSugestionsCloseClick && onSugestionsCloseClick(undefined));
+
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
+    <div style={{ position: 'relative', width: '100%' }} ref={wrapperRef}>
       <InputWrapper className="input" isSecondary={isSecondary}>
         <img src={SearchIcon} alt="Input search logo" />
         <StyledInput
@@ -159,11 +163,20 @@ export default function SearchInput({
           {sugestions.map((sugestion) => (
             <li key={sugestion.id}>
               {typeof sugestion.id === 'number' ? (
-                <SugestionButtonItem to={`/hero/${sugestion.id}`}>
+                <SugestionButtonItem
+                  to={`/hero/${sugestion.id}`}
+                  onClick={() =>
+                    onSugestionsCloseClick && onSugestionsCloseClick(sugestion)
+                  }
+                >
                   {sugestion.name}
                 </SugestionButtonItem>
               ) : (
-                <SugestionItemStyleSpan>
+                <SugestionItemStyleSpan
+                  onClick={() =>
+                    onSugestionsCloseClick && onSugestionsCloseClick(sugestion)
+                  }
+                >
                   {sugestion.name}
                 </SugestionItemStyleSpan>
               )}
