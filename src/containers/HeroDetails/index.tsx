@@ -78,7 +78,7 @@ const url = 'https://gateway.marvel.com:443/v1/public/characters/';
 const params = { apikey: publicKey };
 
 function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
-  const [lastRelease, setLastRelease] = useState('')
+  const [lastRelease, setLastRelease] = useState('');
 
   const { data } = useSWR<Data, AxiosError>(`${url}${match.params.id}`, (url) =>
     Axios.get(url, { params }).then((data) => data.data.data)
@@ -86,18 +86,34 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
 
   const hero = data?.results[0];
 
+
   return (
     <section>
-      <h1>{hero?.name}</h1>
-      <p>
-        {hero?.description
-          ? hero?.description
-          : `No description availble to: ${hero?.name} D=`}
-      </p>
-      <div>
-        <p>Quadrinhos: {hero?.comics.available}</p>
-        <p>Eventos: {hero?.events.available}</p>
-        <p>Último quandrinho: {lastRelease.toString()}</p>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <h1>{hero?.name}</h1>
+          <p>
+            {hero?.description
+              ? hero?.description
+              : `No description availble to: ${hero?.name} D=`}
+          </p>
+          <div>
+            <p>Quadrinhos: {hero?.comics.available}</p>
+            <p>Eventos: {hero?.events.available}</p>
+            <p>Último quandrinho: {lastRelease.toString()}</p>
+          </div>
+        </div>
+        <div>
+          {hero?.thumbnail && (
+            <img
+              style={{ borderRadius: '5px' }}
+              height="240px"
+              width="210px"
+              src={hero?.thumbnail.path + '.' + hero?.thumbnail.extension}
+              alt={hero.name}
+            />
+          )}
+        </div>
       </div>
       <section>
         <h1>
@@ -105,7 +121,12 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
           {hero?.comics.available === 0 &&
             '(Nenhuma HQ exclusiva deste personagem D=)'}
         </h1>
-        {hero?.id && <ComicList id={hero?.id} onLastComicDate={date => setLastRelease(date)} />}
+        {hero?.id && (
+          <ComicList
+            id={hero?.id}
+            onLastComicDate={(date) => setLastRelease(date)}
+          />
+        )}
       </section>
     </section>
   );

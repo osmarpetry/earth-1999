@@ -1,6 +1,8 @@
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import Axios, { AxiosError } from 'axios';
+import HeroCard from 'components/HeroCard';
 import React, { useMemo } from 'react';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useSWRInfinite } from 'swr';
 
 interface ComicListProps {
@@ -133,7 +135,10 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
   const isMaxFavorites = favorites.length >= 5;
 
   const pageSize = 10;
-  const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
+  const { data, isValidating, size, setSize } = useSWRInfinite<
+    Data,
+    AxiosError
+  >(
     (index) => [index, index],
     (index: number) => {
       const customParams = {
@@ -149,54 +154,54 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
     }
   );
 
+  const infiniteRef = useInfiniteScroll({
+    loading: isValidating,
+    hasNextPage: size * pageSize <= (data ? data[0].total : 0),
+    onLoadMore: () => setSize(size + 1),
+  });
+
+  const handleHearthClick = (favorited: boolean, resultId: number) => {
+    if (!favorited && !isMaxFavorites) {
+      writeStorage(`favorites-comics-${id}`, [...favorites, resultId]);
+    } else {
+      writeStorage(
+        `favorites-comics-${id}`,
+        favorites.filter((favorite) => favorite !== resultId)
+      );
+    }
+  };
+
   useMemo(() => {
     if (data) onLastComicDate(data[0].results[0].dates[0].date);
   }, [data, onLastComicDate]);
 
   return (
-    <>
-      <button
-        disabled={data && data[0].total <= size * pageSize}
-        onClick={() => setSize(size + 1)}
-      >
-        Comics page: {size}
-      </button>
-
-      <section style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}>
-        {data?.map((pages) =>
-          pages.results.map((result) => {
-            const favorited =
-              favorites.filter((favorite) => favorite === result.id).length > 0;
-            return (
-              <section style={{ margin: '0 35px 20px 35px' }}>
-                <img
-                  src={result.thumbnail.path + '.' + result.thumbnail.extension}
-                  alt={result.title}
-                  height="220px"
-                  width="150px"
-                />
-                <p style={{ maxWidth: '150px' }}>{result.title}</p>
-                <button
-                  disabled={isMaxFavorites && !favorited}
-                  onClick={() => {
-                    if (!favorited && !isMaxFavorites) {
-                      writeStorage(`favorites-comics-${id}`, [...favorites, result.id]);
-                    } else {
-                      writeStorage(
-                        `favorites-comics-${id}`,
-                        favorites.filter((favorite) => favorite !== result.id)
-                      );
-                    }
-                  }}
-                >
-                  {!favorited ? 'Favoritar' : 'Já favoritado!'}
-                </button>
-              </section>
-            );
-          })
-        )}
-      </section>
-    </>
+    <section
+      style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}
+      ref={infiniteRef}
+    >
+      {data?.map((pages) =>
+        pages.results.map((result) => {
+          const favorited =
+            favorites.filter((favorite) => favorite === result.id).length > 0;
+          return (
+            <HeroCard
+              height="210px"
+              width="210px"
+              alt={result.title}
+              disabled={isMaxFavorites && !favorited}
+              favorite={favorited}
+              imageSrc={
+                result.thumbnail.path + '.' + result.thumbnail.extension
+              }
+              name={result.title}
+              onClick={() => handleHearthClick(favorited, result.id)}
+              key={result.id}
+            />
+          );
+        })
+      )}
+    </section>
   );
 }
 

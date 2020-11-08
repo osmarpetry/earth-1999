@@ -1,8 +1,14 @@
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import Axios, { AxiosError } from 'axios';
+import CheckboxToggle from 'components/CheckboxToggle';
+import HeroCard from 'components/HeroCard';
+import SearchInput from 'components/InputSearch';
 import useDebounce from 'core/utils/hooks/useDebounce';
 import React, { useState } from 'react';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useSWRInfinite } from 'swr';
+
+const Hero = 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
 
 const allHeroesIn05Nov2020 = [
   'Hulk',
@@ -1593,8 +1599,8 @@ interface CharactersApiProps {
 function HeroesList() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
-  const [pageSize, setPageSize] = useState(20);
-  const deboucePageSize = useDebounce(pageSize, 1000)
+  const [pageSize] = useState(20);
+  const deboucePageSize = useDebounce(pageSize, 1000);
   const [orderBy, setOderBy] = useState<OrderBy>('-modified');
   const [search, setSeach] = useState('');
   const debouceSearch = useDebounce(search, 1000);
@@ -1602,7 +1608,10 @@ function HeroesList() {
   const [favorites] = useLocalStorage(`favorites`, []);
   const isMaxFavorites = favorites.length >= 5;
 
-  const { data, size, setSize } = useSWRInfinite<Data, AxiosError>(
+  const { data, isValidating, size, setSize } = useSWRInfinite<
+    Data,
+    AxiosError
+  >(
     (index) => [index, orderBy, deboucePageSize, debouceSearch],
     (index: number) => {
       const customParams: CharactersApiProps = {
@@ -1646,74 +1655,79 @@ function HeroesList() {
     setPossibleHeroes(possibleHero);
   };
 
+  const handleOrderBy = () => {
+    setOderBy(orderBy === '-modified' ? 'name' : '-modified');
+  };
+
+  const handleButtonClick = (favorited: boolean, heroId: number) => {
+    if (!favorited && !isMaxFavorites) {
+      writeStorage(`favorites`, [...favorites, heroId]);
+    } else {
+      writeStorage(
+        'favorites',
+        favorites.filter((favorite) => favorite !== heroId)
+      );
+    }
+  };
+
+  const infiniteRef = useInfiniteScroll({
+    loading: isValidating,
+    hasNextPage: size * pageSize <= (data ? data[0].total : 0),
+    onLoadMore: () => setSize(size + 1),
+  });
+
   return (
     <section>
-      <button
-        disabled={data && data[0].total <= size * pageSize}
-        onClick={() => setSize(size + 1)}
+      <div>
+        <h1>EXPLORE O UNIVERSO</h1>
+        <p>
+          Mergule no domínio deslubrante de todos os personagens clássicos que
+          você ama - e aqueles que você descobrirá em breve!
+        </p>
+        <SearchInput
+          value={search}
+          name="hero-search"
+          label="Procure por heróis"
+          sugestions={possibleHeroes}
+          onChange={(value) => handleSearch(value)}
+          onSugestionClick={(sugestion) => setSeach(sugestion)}
+        />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div>
+            <p>Encontrados {pageSize * (data?.length || 1)} heróis </p>
+          </div>
+          <div>
+            <img src={Hero} alt="Hero icon" />
+            <p>Ordernar por nome - A/Z</p>
+            <CheckboxToggle
+              checked={orderBy.includes('name')}
+              onClick={handleOrderBy}
+            />
+          </div>
+        </div>
+      </div>
+      <section
+        style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}
+        ref={infiniteRef as any}
       >
-        Heros page: {size}
-      </button>
-      <button
-        onClick={() =>
-          setOderBy(orderBy === '-modified' ? 'name' : '-modified')
-        }
-      >
-        OrderBy: {orderBy}
-      </button>
-      <button onClick={() => setPageSize(pageSize)}>
-        Mostrar por pg. : {pageSize}
-      </button>
-      <input
-        placeholder="Mostrar por páginas"
-        type="number"
-        value={pageSize}
-        onChange={(event) =>
-          setPageSize(
-            parseInt(event.target.value) > 0 ? parseInt(event.target.value) : 1
-          )
-        }
-      />
-      <input
-        placeholder="Expect match hero"
-        onChange={(event) => handleSearch(event.target.value)}
-      />
-      {possibleHeroes.map((hero) => (
-        <button onClick={() => setSeach(hero)}>{hero}</button>
-      ))}
-      <h1>Marvel Sample App</h1>
-      <section style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}>
         {data?.map((heros) =>
           heros.results.map((hero) => {
             const favorited =
               favorites.filter((favorite) => favorite === hero.id).length > 0;
+            const disabled = isMaxFavorites && !favorited;
             return (
-              <section key={hero.id} style={{ margin: '0 35px 20px 35px' }}>
-                <a href={`/hero/${hero.id}`}>
-                  <img
-                    src={hero.thumbnail.path + '.' + hero.thumbnail.extension}
-                    alt={`${hero.name} avatar`}
-                    height="221px"
-                    width="221px"
-                  />
-                  <p>{hero.name}</p>
-                </a>
-                <button
-                  disabled={isMaxFavorites && !favorited}
-                  onClick={() => {
-                    if (!favorited && !isMaxFavorites) {
-                      writeStorage(`favorites`, [...favorites, hero.id]);
-                    } else {
-                      writeStorage(
-                        'favorites',
-                        favorites.filter((favorite) => favorite !== hero.id)
-                      );
-                    }
-                  }}
-                >
-                  {!favorited ? 'Favoritar' : 'Já favoritado!'}
-                </button>
-              </section>
+              <HeroCard
+                height="210px"
+                width="210px"
+                alt={hero.name}
+                linkTo={`hero/${hero.id}`}
+                imageSrc={hero.thumbnail.path + '.' + hero.thumbnail.extension}
+                name={hero.name}
+                favorite={favorited}
+                disabled={disabled}
+                onClick={() => handleButtonClick(favorited, hero.id)}
+                key={hero.id}
+              />
             );
           })
         )}

@@ -5,6 +5,8 @@ import { SWRConfig } from 'swr';
 
 import reportWebVitals from './reportWebVitals';
 
+import { GlobalStyle } from 'core/assets/styles/global';
+
 import HeroesList from './containers/HeroesList';
 import HeroDetails from 'containers/HeroDetails';
 
@@ -13,9 +15,10 @@ ReactDOM.render(
     <SWRConfig
       value={{
         revalidateOnFocus: false,
-        revalidateOnReconnect: false
+        revalidateOnReconnect: false,
       }}
     >
+      <GlobalStyle />
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={HeroesList} />

@@ -11856,6 +11856,11 @@ react-hotkeys@2.0.0:
   dependencies:
     prop-types "^15.6.1"
 
+react-infinite-scroll-hook@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-hook/-/react-infinite-scroll-hook-3.0.0.tgz#13b1b4f95769a75da9d615905f4cbf78ccebf1f1"
+  integrity sha512-uLWsLAZ4jJqv6iHq4w7sySK6P059xgh1I98MSiV3UhZacMELhcdr9AycobC41ctIXU/Z9+caPNWwiJJZHwKCaw==
+
 react-inspector@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/react-inspector/-/react-inspector-5.1.0.tgz#45a325e15f33e595be5356ca2d3ceffb7d6b8c3a"
