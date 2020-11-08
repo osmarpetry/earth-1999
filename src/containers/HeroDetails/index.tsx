@@ -11,8 +11,8 @@ import { format } from 'date-fns';
 import ButtonHeart from 'components/ButtonHeart';
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import SearchInput from 'components/InputSearch';
-import { allHeroesIn05Nov2020 } from 'containers/HeroesList';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
+import { allHeroesIn08Nov2020 } from 'containers/HeroesList/heroes';
 
 interface HeroDetailsProps {
   id: string;
@@ -152,18 +152,23 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
   const [search, setSeach] = useState('');
   const [isSugestionsOpen, setIsSugestionOpen] = useState(false);
 
-  const [possibleHeroes, setPossibleHeroes] = useState<string[]>([]);
+  const [possibleHeroes, setPossibleHeroes] = useState<
+    { id: number | undefined; name: string }[]
+  >([]);
   const handleSearch = (value: string) => {
     setSeach(value);
 
-    const possibleHero: string[] = value
-      ? allHeroesIn05Nov2020.reduce(
-          (accumulator: string[], currentValue: string) => {
+    const possibleHero: { id: number; name: string }[] = value
+      ? allHeroesIn08Nov2020.reduce(
+          (
+            accumulator: { id: number; name: string }[],
+            currentValue: { id: number; name: string }
+          ) => {
             if (accumulator.length > 14) {
               return accumulator;
             }
             if (
-              currentValue
+              currentValue.name
                 .toLocaleLowerCase()
                 .includes(value.toLocaleLowerCase())
             ) {
@@ -175,7 +180,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         )
       : [];
 
-    setPossibleHeroes(possibleHero);
+    setPossibleHeroes([{ id: 0, name: value }, ...possibleHero]);
     setIsSugestionOpen(true);
   };
 

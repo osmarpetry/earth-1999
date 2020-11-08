@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { SWRConfig } from 'swr';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -12,7 +11,6 @@ import HeroDetails from 'containers/HeroDetails';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SWRConfig value={{}}>
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
@@ -20,7 +18,6 @@ ReactDOM.render(
           <Route path="/hero/:id" component={HeroDetails} />
         </Switch>
       </BrowserRouter>
-    </SWRConfig>
   </React.StrictMode>,
   document.getElementById('root')
 );

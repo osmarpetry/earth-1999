@@ -1,7 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
+import { Link } from 'react-router-dom';
 
 const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
@@ -62,7 +63,7 @@ export interface SearchInputProps {
   isSugestionsOpen?: boolean;
   label: string;
   name?: string;
-  sugestions?: string[];
+  sugestions?: { id: number | undefined; name: string }[];
   value: string;
   onChange?: (value: string) => void;
   onSugestionClick?: (sugestions: string) => void;
@@ -75,17 +76,26 @@ const SugestionsList = styled.ul<{ isSecondary: boolean }>`
   padding: 0;
   list-style: none;
   z-index: 99;
+  li {
+    border-top: 1px solid rgba(200, 0, 0, 0.3);
+    padding: 10px 0;
+  }
 `;
 
-const SugestionButtonItem = styled.button`
-  outline: none;
-  background: transparent;
-  border: 0;
-  border-top: 1px solid rgba(200, 0, 0, 0.3);
+const SugestionItemStyle = css`
+  color: black;
+  text-decoration: none;
   width: 100%;
   height: 100%;
-  padding: 15px;
   font-size: 20px;
+`;
+
+const SugestionButtonItem = styled(Link)`
+  ${SugestionItemStyle}
+`;
+
+const SugestionItemStyleSpan = styled.span`
+  ${SugestionItemStyle}
 `;
 
 export default function SearchInput({
@@ -117,12 +127,16 @@ export default function SearchInput({
           style={{ position: 'absolute', width: '100%' }}
         >
           {sugestions.map((sugestion) => (
-            <li key={sugestion}>
-              <SugestionButtonItem
-                onClick={() => onSugestionClick && onSugestionClick(sugestion)}
-              >
-                {sugestion}
-              </SugestionButtonItem>
+            <li key={sugestion.id}>
+              {typeof sugestion.id === 'number'   ? (
+                <SugestionButtonItem to={`/hero/${sugestion.id}`}>
+                  {sugestion.name}
+                </SugestionButtonItem>
+              ) : (
+                <SugestionItemStyleSpan>
+                  {sugestion.name}
+                </SugestionItemStyleSpan>
+              )}
             </li>
           ))}
         </SugestionsList>
