@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import ContentLoader from 'react-content-loader';
 
-import ButtonHeart from 'components/ButtonHeart';
+import ButtonHeart, { HeartIcon } from 'components/ButtonHeart';
 
 import colors from 'core/assets/styles/colors';
 import fonts from 'core/assets/styles/fonts';
+import sizes from 'core/assets/styles/sizes';
 
 const HeroCardStyled = styled.section<{ width: string }>`
   padding: 0;
@@ -32,28 +34,61 @@ const HeroName = styled.p`
 `;
 
 export interface HeroCardProps {
-  alt: string;
-  disabled: boolean;
-  favorite: boolean;
+  alt?: string;
+  disabled?: boolean;
+  favorite?: boolean;
   height: string;
-  imageSrc: string;
+  imageSrc?: string;
   linkTo?: string;
-  name: string;
+  loading?: boolean;
+  name?: string;
   width: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function HeroCard({
-  alt,
-  disabled,
-  favorite,
+  alt = '',
+  disabled = false,
+  favorite = false,
   height,
-  imageSrc,
+  imageSrc = '',
   linkTo,
-  name,
+  loading = false,
+  name = '',
   width,
-  onClick,
+  onClick = () => {},
 }: HeroCardProps) {
+  if (loading) {
+    return (
+      <HeroCardStyled width={width}>
+        <ContentLoader
+          width={width}
+          height={height}
+          style={{ borderRadius: '3px' }}
+        >
+          <rect width="100%" height="100%" />
+        </ContentLoader>
+        <CardFooter>
+          <ContentLoader
+            height={sizes.lineHeightParagraph}
+            style={{ borderRadius: '3px', paddingRight: '10px' }}
+          >
+            <rect width="100%" height="100%" />
+          </ContentLoader>
+          <span
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: 'fit-content',
+            }}
+          >
+            <HeartIcon fill="rgba(255, 0,0,0.6)" stroke={"rgba(255, 0,0,0.6)"} />
+          </span>
+        </CardFooter>
+      </HeroCardStyled>
+    );
+  }
+
   return (
     <HeroCardStyled width={width}>
       {linkTo ? (

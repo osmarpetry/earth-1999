@@ -3,7 +3,13 @@ import styled, { css } from 'styled-components';
 
 import colors from 'core/assets/styles/colors';
 
-const HeartIcon = ({ fill }: { fill: string }) => (
+export const HeartIcon = ({
+  fill,
+  stroke = '#FF0000',
+}: {
+  fill: string;
+  stroke?: string;
+}) => (
   <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
     <title>Path Copy 2@1,5x</title>
     <g
@@ -18,7 +24,7 @@ const HeartIcon = ({ fill }: { fill: string }) => (
         className="teste"
         transform="translate(-231.000000, -828.000000)"
         fill-rule="nonzero"
-        stroke="#FF0000"
+        stroke={stroke}
         fill={fill}
         stroke-width="2"
       >
@@ -36,11 +42,11 @@ const ButtonStyled = styled.button<{ color: string; isDisabled: boolean }>`
   border: none;
   color: ${({ color }) => color};
   display: flex;
-  justify-items: center;
+  align-items: center;
   outline: none;
 
-  svg:first-child {
-    margin-right: 10px;
+  span {
+    margin-left: 5px;
   }
 
   ${({ isDisabled }) =>
@@ -53,7 +59,7 @@ const ButtonStyled = styled.button<{ color: string; isDisabled: boolean }>`
 export interface ButtonHeartProps {
   value: boolean;
   disabled: boolean;
-  children?: unknown;
+  children?: React.ReactNode;
   onClick?: () => void;
 }
 
@@ -71,7 +77,7 @@ export default function ButtonHeart({
       isDisabled={disabled}
     >
       <HeartIcon fill={value ? colors.primary : 'none'} />
-      {children}
+      {children && <span>{children}</span>}
     </ButtonStyled>
   );
 }

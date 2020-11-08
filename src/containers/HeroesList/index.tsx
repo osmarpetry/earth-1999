@@ -7,18 +7,19 @@ import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 
 import useDebounce from 'core/utils/hooks/useDebounce';
 import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
+import responsive from 'core/assets/styles/responsive';
 
 import ButtonHeart from 'components/ButtonHeart';
 import CheckboxToggle from 'components/CheckboxToggle';
 import HeroCard from 'components/HeroCard';
 import SearchInput from 'components/InputSearch';
 import SectionHeader from 'components/SectionHeader';
+import Placeholder from 'components/Placeholder';
 
 import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 
 import { Hero } from './model';
-import responsive from 'core/assets/styles/responsive';
 
 interface Data {
   offset: 0;
@@ -109,7 +110,7 @@ function HeroesList() {
   const [favorites] = useLocalStorage<Hero[]>(`favorites`, []);
   const isMaxFavorites = favorites.length >= 5;
 
-  const { data, isValidating, size, setSize } = useSWRInfinite<
+  const { data, error, isValidating, size, setSize } = useSWRInfinite<
     Data,
     AxiosError
   >(
@@ -180,7 +181,7 @@ function HeroesList() {
   };
 
   const infiniteRef = useInfiniteScroll({
-    loading: isValidating || justFavorites,
+    loading: false,
     hasNextPage: size * pageSize <= (data ? data[0].total : 0),
     onLoadMore: () => setSize(size + 1),
   });
@@ -282,30 +283,50 @@ function HeroesList() {
               })}
             </HeroesCardsWrapper>
           ) : (
-            data?.map((heros) =>
-              heros.results.map((hero) => {
-                const favorited =
-                  favorites.filter((favorite) => favorite.id === hero.id)
-                    .length > 0;
-                const disabled = isMaxFavorites && !favorited;
-                return (
-                  <HeroCard
-                    height="210px"
-                    width="210px"
-                    alt={hero.name}
-                    linkTo={`hero/${hero.id}`}
-                    imageSrc={
-                      hero.thumbnail.path + '.' + hero.thumbnail.extension
-                    }
-                    name={hero.name}
-                    favorite={favorited}
-                    disabled={disabled}
-                    onClick={() => handleButtonClick(favorited, hero)}
-                    key={hero.id}
-                  />
-                );
-              })
-            )
+            <Placeholder
+              isEmpty={!data || data?.length <= 0}
+              status={data && !error ? 'success' : !error ? 'loading' : 'error'}
+              contentsName="heroínas ou heróis"
+            >
+              <>
+                {data
+                  ? data?.map((heros) =>
+                      heros.results.map((hero) => {
+                        const favorited =
+                          favorites.filter(
+                            (favorite) => favorite.id === hero.id
+                          ).length > 0;
+                        const disabled = isMaxFavorites && !favorited;
+                        return (
+                          <HeroCard
+                            height="210px"
+                            width="210px"
+                            alt={hero.name}
+                            linkTo={`hero/${hero.id}`}
+                            imageSrc={
+                              hero.thumbnail.path +
+                              '.' +
+                              hero.thumbnail.extension
+                            }
+                            name={hero.name}
+                            favorite={favorited}
+                            disabled={disabled}
+                            onClick={() => handleButtonClick(favorited, hero)}
+                            key={hero.id}
+                          />
+                        );
+                      })
+                    )
+                  : [...Array(pageSize * size)].map((value) => (
+                      <HeroCard
+                        loading={true}
+                        key={value}
+                        height="210px"
+                        width="210px"
+                      />
+                    ))}
+              </>
+            </Placeholder>
           )}
         </SectionMain>
       </section>
