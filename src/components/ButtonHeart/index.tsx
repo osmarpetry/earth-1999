@@ -38,7 +38,6 @@ const ButtonStyled = styled.button<{ color: string; isDisabled: boolean }>`
   display: flex;
   justify-items: center;
   outline: none;
-  transition: all 4s ease;
 
   svg:first-child {
     margin-right: 10px;

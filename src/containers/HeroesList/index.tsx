@@ -17,8 +17,8 @@ import SectionHeader from 'components/SectionHeader';
 import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 
-
 import { Hero } from './model';
+import responsive from 'core/assets/styles/responsive';
 
 interface Data {
   offset: 0;
@@ -40,17 +40,21 @@ interface CharactersApiProps {
 const SpanRightColumn = styled.span`
   display: flex;
   align-items: center;
-  margin-left: 15px;
+  @media only screen and (min-width: ${responsive.desktop}) {
+    margin-left: 15px;
+  }
 `;
 
 const CheckboxChildren = styled(SpanRightColumn)`
+  display: flex;
+  align-items: center;
   p {
     margin-left: 10px;
   }
 `;
 
 const SectionHeaderStyled = styled.header`
-  margin: 20px 40px;
+  margin: 20px 0;
 `;
 
 const SectionHeader2 = styled.section`
@@ -58,6 +62,34 @@ const SectionHeader2 = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 10px;
+`;
+
+const HeroesCardsWrapper = styled.div`
+  display: flex;
+`;
+
+const SectionMain = styled.main`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @media only screen and (max-width: ${responsive.mobile}) {
+    section {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
+
+const SpanRightColumnLeft = styled(SpanRightColumn)`
+  @media only screen and (max-width: ${responsive.mobile}) {
+    margin-bottom: 15px;
+  }
 `;
 
 function HeroesList() {
@@ -104,10 +136,7 @@ function HeroesList() {
 
     const possibleHero: AllHeroes[] = value
       ? allHeroesIn08Nov2020.reduce(
-          (
-            accumulator: AllHeroes[],
-            currentValue: AllHeroes
-          ) => {
+          (accumulator: AllHeroes[], currentValue: AllHeroes) => {
             if (accumulator.length > 14) {
               return accumulator;
             }
@@ -151,7 +180,7 @@ function HeroesList() {
   };
 
   const infiniteRef = useInfiniteScroll({
-    loading: isValidating,
+    loading: isValidating || justFavorites,
     hasNextPage: size * pageSize <= (data ? data[0].total : 0),
     onLoadMore: () => setSize(size + 1),
   });
@@ -187,17 +216,17 @@ function HeroesList() {
           </div>
         </main>
       </SectionHeader2>
-      <section ref={infiniteRef as any}>
+      <section ref={infiniteRef as any} style={{ margin: '0 10px' }}>
         <SectionHeaderStyled>
           <SectionHeader
             leftColumn={
-              <p>
+              <p style={{ width: '100%', textAlign: 'center' }}>
                 Encontrados {pageSize * (data?.length || 1)} heroínas e heróis{' '}
               </p>
             }
             rightColumn={
               <>
-                <SpanRightColumn>
+                <SpanRightColumnLeft>
                   <CheckboxToggle
                     checked={orderBy.includes('name')}
                     onClick={handleOrderBy}
@@ -207,7 +236,7 @@ function HeroesList() {
                       <p>Ordernar por nome - A/Z</p>
                     </CheckboxChildren>
                   </CheckboxToggle>
-                </SpanRightColumn>
+                </SpanRightColumnLeft>
                 <SpanRightColumn>
                   <ButtonHeart
                     disabled={false}
@@ -221,16 +250,9 @@ function HeroesList() {
             }
           />
         </SectionHeaderStyled>
-        <main
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            margin: '0 40px',
-          }}
-        >
+        <SectionMain>
           {justFavorites ? (
-            <div style={{ display: 'flex' }}>
+            <HeroesCardsWrapper>
               {favorites.map((favoriteHero) => {
                 const favorited =
                   favorites.filter(
@@ -239,7 +261,7 @@ function HeroesList() {
                 const disabled = isMaxFavorites && !favorited;
 
                 return (
-                  <div style={{ marginRight: '30px' }}>
+                  <div>
                     <HeroCard
                       height="210px"
                       width="210px"
@@ -259,7 +281,7 @@ function HeroesList() {
                   </div>
                 );
               })}
-            </div>
+            </HeroesCardsWrapper>
           ) : (
             data?.map((heros) =>
               heros.results.map((hero) => {
@@ -286,7 +308,7 @@ function HeroesList() {
               })
             )
           )}
-        </main>
+        </SectionMain>
       </section>
     </div>
   );

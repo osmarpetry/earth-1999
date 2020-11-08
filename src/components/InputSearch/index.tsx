@@ -9,6 +9,7 @@ import sizes from 'core/assets/styles/sizes';
 import fonts from 'core/assets/styles/fonts';
 
 import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
+import responsive from 'core/assets/styles/responsive';
 
 const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
@@ -51,12 +52,21 @@ const InputWrapper = styled.div<{ isSecondary: boolean }>`
 
   input:focus + label {
     transform: translate(-35px, -35px);
+
+    @media only screen and (max-width: ${responsive.mobile}) {
+      transform: translate(-58px, -35px);
+    }
     font-size: 2rem;
     color: ${colors.primary};
+    white-space: nowrap;
   }
 
   input:not(:placeholder-shown) + label {
     transform: translate(-35px, -35px);
+
+    @media only screen and (max-width: ${responsive.mobile}) {
+      transform: translate(-58px, -35px);
+    }
     font-size: 2rem;
     color: ${colors.primary};
     white-space: nowrap;
@@ -81,7 +91,7 @@ export interface SearchInputProps {
   isSecondary?: boolean;
   isSugestionsOpen?: boolean;
   label: string;
-  placeholder: string
+  placeholder: string;
   name?: string;
   sugestions?: AllHeroes[];
   value: string;
@@ -148,7 +158,7 @@ export default function SearchInput({
         >
           {sugestions.map((sugestion) => (
             <li key={sugestion.id}>
-              {typeof sugestion.id === 'number'   ? (
+              {typeof sugestion.id === 'number' ? (
                 <SugestionButtonItem to={`/hero/${sugestion.id}`}>
                   {sugestion.name}
                 </SugestionButtonItem>

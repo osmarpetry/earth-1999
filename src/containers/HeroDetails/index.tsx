@@ -19,66 +19,8 @@ import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 import { ReactComponent as MovieLogo } from 'assets/icones/video/Shape@1,5x.svg';
 
-interface HeroDetailsProps {
-  id: string;
-}
-export interface Thumbnail {
-  path: string;
-  extension: string;
-}
-
-export interface Item {
-  resourceURI: string;
-  name: string;
-  type?: string;
-}
-
-export interface Comics {
-  available: number;
-  collectionURI: string;
-  items: Item[];
-  returned: number;
-}
-
-export interface Series {
-  available: number;
-  collectionURI: string;
-  items: Item[];
-  returned: number;
-}
-
-export interface Stories {
-  available: number;
-  collectionURI: string;
-  items: Item[];
-  returned: number;
-}
-
-export interface Events {
-  available: number;
-  collectionURI: string;
-  items: Item[];
-  returned: number;
-}
-
-export interface Url {
-  type: string;
-  url: string;
-}
-
-export interface Hero {
-  id: number;
-  name: string;
-  description: string;
-  modified: Date;
-  thumbnail: Thumbnail;
-  resourceURI: string;
-  comics: Comics;
-  series: Series;
-  stories: Stories;
-  events: Events;
-  urls: Url[];
-}
+import { Hero } from './model';
+import responsive from 'core/assets/styles/responsive';
 
 export interface Data {
   offset: number;
@@ -95,7 +37,16 @@ const params = { apikey: publicKey };
 const StyledMain = styled.main`
   display: flex;
   .left {
-    max-width: 300px;
+    @media only screen and (min-width: ${responsive.desktop}) {
+      max-width: 300px;
+      margin-left: 30px;
+    }
+
+    @media only screen and (max-width: ${responsive.mobile}) {
+      margin-top: 30px;
+      max-width: 100%;
+
+    }
 
     h1 {
       margin-right: 30px;
@@ -105,6 +56,10 @@ const StyledMain = styled.main`
       display: flex;
       justify-content: space-between;
     }
+  }
+
+  @media only screen and (max-width: ${responsive.mobile}) {
+    flex-direction: column;
   }
 `;
 
@@ -120,7 +75,37 @@ const StyledHeader = styled.header`
   svg {
     margin-right: 30px;
   }
+
+  @media only screen and (max-width: ${responsive.mobile}) {
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
 `;
+
+const Section = styled.section`
+  padding: 0 40px;
+  @media only screen and (max-width: ${responsive.mobile}) {
+    padding: 0 10px;
+  }
+  background: ${colors.backgroundColorSecondary};
+  height: 100%;
+  width: 100%;
+`;
+
+const Img = styled.img`
+  height: 340px;
+  width: 310px;
+
+  @media only screen and (max-width: ${responsive.mobile}) {
+    height: 100%;
+    width: 100%;
+    align-self: center;
+  }
+`;
+
+interface HeroDetailsProps {
+  id: string;
+}
 
 function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
   const [lastRelease, setLastRelease] = useState('');
@@ -158,10 +143,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
 
     const possibleHero: AllHeroes[] = value
       ? allHeroesIn08Nov2020.reduce(
-          (
-            accumulator: AllHeroes[],
-            currentValue: AllHeroes
-          ) => {
+          (accumulator: AllHeroes[], currentValue: AllHeroes) => {
             if (accumulator.length > 14) {
               return accumulator;
             }
@@ -183,14 +165,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
   };
 
   return (
-    <section
-      style={{
-        padding: '0 40px',
-        background: colors.backgroundColorSecondary,
-        height: '100%',
-        width: '100%',
-      }}
-    >
+    <Section>
       <StyledHeader>
         <Link to="/">
           <MarvelHeaderLogo width="228px" />
@@ -202,7 +177,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
           name="hero-search"
           sugestions={possibleHeroes}
           value={search}
-        placeholder="Digite o nome de uma heroína ou herói..."
+          placeholder="Digite o nome de uma heroína ou herói..."
           onChange={(value) => handleSearch(value)}
           onSugestionClick={(sugestion) => {
             setIsSugestionOpen(false);
@@ -211,12 +186,10 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         />
       </StyledHeader>
       <StyledMain style={{ marginBottom: '70px' }}>
-        <div style={{ marginRight: '70px' }}>
+        <div>
           {hero?.thumbnail && (
-            <img
+            <Img
               style={{ borderRadius: '5px' }}
-              height="340px"
-              width="310px"
               src={hero?.thumbnail.path + '.' + hero?.thumbnail.extension}
               alt={hero.name}
             />
@@ -281,7 +254,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
           />
         )}
       </StyledFooter>
-    </section>
+    </Section>
   );
 }
 
