@@ -1,3 +1,4 @@
+import colors from 'core/assets/styles/colors';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
@@ -64,8 +65,8 @@ export default function ButtonHeart({
   onClick,
 }: ButtonHeartProps) {
   return (
-    <ButtonStyled color='red' onClick={onClick} disabled={disabled} isDisabled={disabled}>
-      <HeartIcon fill={value ? 'red' : 'none'} />
+    <ButtonStyled color={colors.primary} onClick={onClick} disabled={disabled} isDisabled={disabled}>
+      <HeartIcon fill={value ? colors.primary : 'none'} />
       {children}
     </ButtonStyled>
   );

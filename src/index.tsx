@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Reset } from 'styled-reset'
 
 import reportWebVitals from './reportWebVitals';
 
@@ -11,6 +12,7 @@ import HeroDetails from 'containers/HeroDetails';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Reset />
       <GlobalStyle />
       <BrowserRouter>
         <Switch>

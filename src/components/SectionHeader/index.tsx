@@ -1,3 +1,4 @@
+import colors from 'core/assets/styles/colors';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -12,14 +13,16 @@ const SectionHeaderWrapper = styled.div`
 
 const LeftColumn = styled.div`
   display: flex;
-  color: gray;
+  color: ${colors.fontAuxiliary};
   align-items: center;
 `;
 
 const RightColumn = styled.div`
   display: flex;
-  color: red;
   align-items: center;
+  p {
+    color: ${colors.primary};
+  }
 `;
 
 export interface SectionHeaderProps {

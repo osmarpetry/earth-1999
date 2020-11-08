@@ -127,17 +127,6 @@ const SectionHeader2 = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  h1 {
-    font-size: 20px;
-  }
-
-  p {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  div {
-  }
 `;
 
 function HeroesList() {
@@ -243,7 +232,7 @@ function HeroesList() {
       <SectionHeader2>
         <header>
           <MarvelHeaderLogo width="228px" />
-          <h1>EXPLORE O UNIVERSO</h1>
+          <h2>EXPLORE O UNIVERSO</h2>
         </header>
         <main>
           <p>
@@ -252,12 +241,13 @@ function HeroesList() {
           </p>
           <div style={{ marginTop: '30px' }}>
             <SearchInput
+                    placeholder="Digite o nome de uma heroína ou herói..."
               isSugestionsOpen={isSugestionsOpen}
-              label="Procure por heróis"
+              label="Procure por heroínas ou heróis"
               name="hero-search"
+              onChange={(value) => handleSearch(value)}
               sugestions={possibleHeroes}
               value={search}
-              onChange={(value) => handleSearch(value)}
               onSugestionClick={(sugestion) => {
                 setIsSugestionOpen(false);
                 setSeach(sugestion);
@@ -270,7 +260,7 @@ function HeroesList() {
         <SectionHeaderStyled>
           <SectionHeader
             leftColumn={
-              <p>Encontrados {pageSize * (data?.length || 1)} heróis </p>
+              <p>Encontrados {pageSize * (data?.length || 1)} heroínas e heróis </p>
             }
             rightColumn={
               <>

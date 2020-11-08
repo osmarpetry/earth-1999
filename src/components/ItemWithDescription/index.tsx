@@ -1,3 +1,4 @@
+import colors from 'core/assets/styles/colors';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
@@ -24,6 +25,7 @@ const Description = styled.div`
   span,
   p {
     margin: 0;
+    color: ${colors.fontPrimary};
   }
 
   span:last-child {
@@ -33,6 +35,7 @@ const Description = styled.div`
 
 const ItemName = styled.p`
   font-weight: 600;
+  color: ${colors.fontPrimary};
   white-space: nowrap;
 `;
 

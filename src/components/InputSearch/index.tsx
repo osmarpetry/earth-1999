@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 
 import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
 import { Link } from 'react-router-dom';
+import colors from 'core/assets/styles/colors';
+import sizes from 'core/assets/styles/sizes';
+import fonts from 'core/assets/styles/fonts';
 
 const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
@@ -13,6 +16,7 @@ const InputWrapper = styled.div<{ isSecondary: boolean }>`
     width: 100%;
     height: 100%;
     padding-left: 60px;
+    font-size: ${sizes.paragraphSize};
   }
 
   img {
@@ -23,23 +27,35 @@ const InputWrapper = styled.div<{ isSecondary: boolean }>`
 
   label {
     position: absolute;
-    color: #ff0000;
-    font-weight: 600;
-    left: 56px;
+    color: ${colors.primary};
+    font-weight: ${fonts.lightBold};
+    left: 60px;
+    font-size: ${sizes.paragraphSize};
     transition: all 0.3s;
     pointer-events: none;
   }
 
+  input::placeholder {
+    color: transparent;
+    opacity: 0.6;
+    transition: 0.3s color;
+    font-size: ${sizes.paragraphSize};
+  }
+
+  input:focus::placeholder {
+    color: ${colors.primary};
+  }
+
   input:focus + label {
-    transform: translate(-35px, -33px);
-    font-size: 20px;
-    color: #ff0000;
+    transform: translate(-35px, -35px);
+    font-size: 2rem;
+    color: ${colors.primary};
   }
 
   input:not(:placeholder-shown) + label {
-    transform: translate(-35px, -33px);
-    font-size: 20px;
-    color: #ff0000;
+    transform: translate(-35px, -35px);
+    font-size: 2rem;
+    color: ${colors.primary};
     white-space: nowrap;
   }
 `;
@@ -54,14 +70,15 @@ const StyledInput = styled.input<{
   border: none;
   background-color: ${({ isSecondary }) => (isSecondary ? '#ffff' : '#fdecec')};
   padding: 15px;
-  color: #ff0000;
-  font-weight: 600;
+  color: ${colors.primary};
+  font-weight: ${fonts.lightBold};
 `;
 
 export interface SearchInputProps {
   isSecondary?: boolean;
   isSugestionsOpen?: boolean;
   label: string;
+  placeholder: string
   name?: string;
   sugestions?: { id: number | undefined; name: string }[];
   value: string;
@@ -76,18 +93,18 @@ const SugestionsList = styled.ul<{ isSecondary: boolean }>`
   padding: 0;
   list-style: none;
   z-index: 99;
+
   li {
-    border-top: 1px solid rgba(200, 0, 0, 0.3);
+    border-top: 1px solid ${colors.primary};
     padding: 10px 0;
+    text-align: center;
   }
 `;
 
 const SugestionItemStyle = css`
-  color: black;
-  text-decoration: none;
   width: 100%;
   height: 100%;
-  font-size: 20px;
+  font-size: ${sizes.paragraphSize};
 `;
 
 const SugestionButtonItem = styled(Link)`
@@ -102,12 +119,12 @@ export default function SearchInput({
   isSecondary = false,
   isSugestionsOpen = false,
   label,
+  placeholder,
   name = 'search',
   sugestions,
   onChange,
   onSugestionClick,
 }: SearchInputProps) {
-  console.log(sugestions);
   return (
     <div style={{ position: 'relative', width: '100%' }}>
       <InputWrapper className="input" isSecondary={isSecondary}>
@@ -115,7 +132,7 @@ export default function SearchInput({
         <StyledInput
           isSecondary={isSecondary}
           isSugestionsOpen={isSugestionsOpen}
-          placeholder=" "
+          placeholder={placeholder}
           name={name}
           onChange={(event) => onChange && onChange(event.target.value)}
         />

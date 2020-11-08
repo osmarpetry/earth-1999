@@ -13,6 +13,7 @@ import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import SearchInput from 'components/InputSearch';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 import { allHeroesIn08Nov2020 } from 'containers/HeroesList/heroes';
+import colors from 'core/assets/styles/colors';
 
 interface HeroDetailsProps {
   id: string;
@@ -93,7 +94,6 @@ const StyledMain = styled.main`
     max-width: 300px;
 
     h1 {
-      font-size: 30px;
       margin-right: 30px;
     }
     span {
@@ -101,17 +101,11 @@ const StyledMain = styled.main`
       display: flex;
       justify-content: space-between;
     }
-
-    p {
-      line-height: 17px;
-      color: rgba(0, 0, 0, 0.6);
-    }
   }
 `;
 
 const StyledFooter = styled.footer`
-  h2 {
-    font-size: 18px;
+  h3 {
     padding-bottom: 20px;
   }
 `;
@@ -188,8 +182,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
     <section
       style={{
         padding: '0 40px',
-        background: '#E7F6E7',
-        position: 'fixed',
+        background: colors.backgroundColorSecondary,
         height: '100%',
         width: '100%',
       }}
@@ -201,10 +194,11 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         <SearchInput
           isSecondary
           isSugestionsOpen={isSugestionsOpen}
-          label="Procure por heróis"
+          label="Procure por heroínas ou heróis"
           name="hero-search"
           sugestions={possibleHeroes}
           value={search}
+        placeholder="Digite o nome de uma heroína ou herói..."
           onChange={(value) => handleSearch(value)}
           onSugestionClick={(sugestion) => {
             setIsSugestionOpen(false);
@@ -271,11 +265,11 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         </div>
       </StyledMain>
       <StyledFooter>
-        <h2>
+        <h3>
           Últimos lançamentos
           {hero?.comics.available === 0 &&
             '(Nenhuma HQ exclusiva deste personagem D=)'}
-        </h2>
+        </h3>
         {hero?.id && (
           <ComicList
             id={hero?.id}

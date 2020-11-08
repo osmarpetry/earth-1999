@@ -1,4 +1,6 @@
 import ButtonHeart from 'components/ButtonHeart';
+import colors from 'core/assets/styles/colors';
+import fonts from 'core/assets/styles/fonts';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -23,7 +25,8 @@ const CardFooter = styled.footer`
 
 const HeroName = styled.p`
   margin: 0;
-  font-weight: 600;
+  color: ${colors.fontPrimary};
+  font-weight: ${fonts.lightBold};
 `;
 
 export interface HeroCardProps {
