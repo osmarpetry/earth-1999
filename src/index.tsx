@@ -12,12 +12,7 @@ import HeroDetails from 'containers/HeroDetails';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SWRConfig
-      value={{
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false,
-      }}
-    >
+    <SWRConfig value={{}}>
       <GlobalStyle />
       <BrowserRouter>
         <Switch>

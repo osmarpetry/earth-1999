@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 export interface ItemWithDescriptionProps {
-  description?: string;
+  description?: string | number;
   descriptionLogo?: ReactNode;
   hasTwoLines?: boolean;
   itemName: string;

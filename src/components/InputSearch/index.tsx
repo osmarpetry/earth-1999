@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg';
 
-const InputWrapper = styled.div<{isSecondary: boolean}>`
+const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
@@ -43,19 +43,22 @@ const InputWrapper = styled.div<{isSecondary: boolean}>`
   }
 `;
 
-const StyledInput = styled.input<{ isSecondary: boolean, isSugestionsOpen: boolean }>`
+const StyledInput = styled.input<{
+  isSecondary: boolean;
+  isSugestionsOpen: boolean;
+}>`
   border-radius: ${({ isSugestionsOpen }) =>
     isSugestionsOpen ? '15px 15px 0 0' : '15px'};
   outline: unset;
   border: none;
-  background-color: ${({isSecondary}) => isSecondary ? '#ffff' : '#fdecec'};
+  background-color: ${({ isSecondary }) => (isSecondary ? '#ffff' : '#fdecec')};
   padding: 15px;
   color: #ff0000;
   font-weight: 600;
 `;
 
 export interface SearchInputProps {
-  isSecondary?: boolean
+  isSecondary?: boolean;
   isSugestionsOpen?: boolean;
   label: string;
   name?: string;
@@ -65,25 +68,20 @@ export interface SearchInputProps {
   onSugestionClick?: (sugestions: string) => void;
 }
 
-const SugestionsList = styled.ul<{isSecondary: boolean}>`
-  background:  ${({isSecondary}) => isSecondary ? '#ffff' :'rgba(200, 0, 0, 0.1)'} ;
+const SugestionsList = styled.ul<{ isSecondary: boolean }>`
+  background: ${({ isSecondary }) => (isSecondary ? '#ffff' : '#fdecec')};
   border-radius: 0 0 15px 10px;
   margin: 0;
   padding: 0;
   list-style: none;
-
-  li:last-child {
-    button {
-      border-bottom: none;
-    }
-  }
+  z-index: 99;
 `;
 
 const SugestionButtonItem = styled.button`
   outline: none;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid rgba(200, 0, 0, 0.3);
+  border-top: 1px solid rgba(200, 0, 0, 0.3);
   width: 100%;
   height: 100%;
   padding: 15px;
@@ -99,12 +97,13 @@ export default function SearchInput({
   onChange,
   onSugestionClick,
 }: SearchInputProps) {
+  console.log(sugestions);
   return (
-    <div>
+    <div style={{ position: 'relative', width: '100%' }}>
       <InputWrapper className="input" isSecondary={isSecondary}>
         <img src={SearchIcon} alt="Input search logo" />
         <StyledInput
-        isSecondary={isSecondary}
+          isSecondary={isSecondary}
           isSugestionsOpen={isSugestionsOpen}
           placeholder=" "
           name={name}
@@ -113,7 +112,10 @@ export default function SearchInput({
         <label htmlFor={name}>{label}</label>
       </InputWrapper>
       {isSugestionsOpen && sugestions && sugestions?.length > 1 && (
-        <SugestionsList isSecondary={isSecondary}>
+        <SugestionsList
+          isSecondary={isSecondary}
+          style={{ position: 'absolute', width: '100%' }}
+        >
           {sugestions.map((sugestion) => (
             <li key={sugestion}>
               <SugestionButtonItem

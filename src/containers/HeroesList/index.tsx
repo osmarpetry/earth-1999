@@ -14,7 +14,7 @@ import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 
 import ButtonHeart from 'components/ButtonHeart';
 
-const allHeroesIn05Nov2020 = [
+export const allHeroesIn05Nov2020 = [
   'Hulk',
   'Doctor Strange',
   'Captain Marvel (Carol Danvers)',
@@ -1631,7 +1631,6 @@ const SectionHeader2 = styled.section`
   }
 
   div {
-    margin: 30px 0;
   }
 `;
 
@@ -1643,6 +1642,8 @@ function HeroesList() {
   const [orderBy, setOderBy] = useState<OrderBy>('-modified');
   const [search, setSeach] = useState('');
   const debouceSearch = useDebounce(search, 1000);
+  const [isSugestionsOpen, setIsSugestionOpen] = useState(false);
+
   const [possibleHeroes, setPossibleHeroes] = useState<string[]>([]);
   const [favorites] = useLocalStorage(`favorites`, []);
   const isMaxFavorites = favorites.length >= 5;
@@ -1687,11 +1688,12 @@ function HeroesList() {
             }
             return accumulator;
           },
-          [value]
+          []
         )
-      : [value];
+      : [];
 
-    setPossibleHeroes(possibleHero);
+    setPossibleHeroes([value, ...possibleHero]);
+    setIsSugestionOpen(true);
   };
 
   const handleOrderBy = () => {
@@ -1727,47 +1729,58 @@ function HeroesList() {
             Mergule no domínio deslubrante de todos os personagens clássicos que
             você ama - e aqueles que você descobrirá em breve!
           </p>
-          <div>
+          <div style={{marginTop: '30px'}}>
             <SearchInput
-              value={search}
-              name="hero-search"
+              isSugestionsOpen={isSugestionsOpen}
               label="Procure por heróis"
+              name="hero-search"
               sugestions={possibleHeroes}
+              value={search}
               onChange={(value) => handleSearch(value)}
-              onSugestionClick={(sugestion) => setSeach(sugestion)}
+              onSugestionClick={(sugestion) => {
+                setIsSugestionOpen(false);
+                setSeach(sugestion);
+              }}
             />
           </div>
         </main>
       </SectionHeader2>
       <section ref={infiniteRef as any}>
         <SectionHeaderStyled>
-        <SectionHeader
-          leftColumn={
-            <p>Encontrados {pageSize * (data?.length || 1)} heróis </p>
-          }
-          rightColumn={
-            <>
-              <SpanRightColumn>
-                <CheckboxToggle
-                  checked={orderBy.includes('name')}
-                  onClick={handleOrderBy}
-                >
-                  <CheckboxChildren>
-                    <HeroLogo />
-                    <p>Ordernar por nome - A/Z</p>
-                  </CheckboxChildren>
-                </CheckboxToggle>
-              </SpanRightColumn>
-              <SpanRightColumn>
-                <ButtonHeart disabled={false} value={true}>
-                  Somente Favoritos
-                </ButtonHeart>
-              </SpanRightColumn>
-            </>
-          }
-        />
+          <SectionHeader
+            leftColumn={
+              <p>Encontrados {pageSize * (data?.length || 1)} heróis </p>
+            }
+            rightColumn={
+              <>
+                <SpanRightColumn>
+                  <CheckboxToggle
+                    checked={orderBy.includes('name')}
+                    onClick={handleOrderBy}
+                  >
+                    <CheckboxChildren>
+                      <HeroLogo />
+                      <p>Ordernar por nome - A/Z</p>
+                    </CheckboxChildren>
+                  </CheckboxToggle>
+                </SpanRightColumn>
+                <SpanRightColumn>
+                  <ButtonHeart disabled={false} value={true}>
+                    Somente Favoritos
+                  </ButtonHeart>
+                </SpanRightColumn>
+              </>
+            }
+          />
         </SectionHeaderStyled>
-        <main style={{ display: 'flex', flexWrap: 'wrap',  justifyContent: 'space-between', margin: '0 40px' }}>
+        <main
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            margin: '0 40px',
+          }}
+        >
           {data?.map((heros) =>
             heros.results.map((hero) => {
               const favorited =

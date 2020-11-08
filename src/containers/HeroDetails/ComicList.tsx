@@ -37,7 +37,7 @@ export interface Variant {
 
 export interface Date {
   type: string;
-  date: any;
+  date: string;
 }
 
 export interface Price {
@@ -139,7 +139,7 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
     Data,
     AxiosError
   >(
-    (index) => [index, index],
+    (index) => [index, id],
     (index: number) => {
       const customParams = {
         limit: pageSize,
@@ -172,12 +172,25 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
   };
 
   useMemo(() => {
-    if (data) onLastComicDate(data[0].results[0].dates[0].date);
+    if (data)
+      onLastComicDate(
+        (data &&
+          data.length > 0 &&
+          data[0].results &&
+          data[0].results.length > 0 &&
+          data[0].results[0].dates &&
+          data[0].results[0].dates[0].date) ||
+          new Date().toString()
+      );
   }, [data, onLastComicDate]);
 
   return (
     <section
-      style={{ display: 'flex', flexWrap: 'wrap', margin: '0 40px' }}
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+      }}
       ref={infiniteRef}
     >
       {data?.map((pages) =>
@@ -187,7 +200,7 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
           return (
             <HeroCard
               height="210px"
-              width="210px"
+              width="190px"
               alt={result.title}
               disabled={isMaxFavorites && !favorited}
               favorite={favorited}
