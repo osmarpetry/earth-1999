@@ -102,27 +102,32 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
 
   return (
     <ComicListSection ref={infiniteRef}>
-      {data?.map((pages) =>
-        pages.results.map((result) => {
-          const favorited =
-            favorites.filter((favorite) => favorite === result.id).length > 0;
-          return (
-            <HeroCard
-              height="210px"
-              width="190px"
-              alt={result.title}
-              disabled={isMaxFavorites && !favorited}
-              favorite={favorited}
-              imageSrc={
-                result.thumbnail.path + '.' + result.thumbnail.extension
-              }
-              name={result.title}
-              onClick={() => handleHearthClick(favorited, result.id)}
-              key={result.id}
-            />
-          );
-        })
-      )}
+      {data
+        ? data?.map((pages) =>
+            pages.results.map((result) => {
+              const favorited =
+                favorites.filter((favorite) => favorite === result.id).length >
+                0;
+              return (
+                <HeroCard
+                  height="210px"
+                  width="190px"
+                  alt={result.title}
+                  disabled={isMaxFavorites && !favorited}
+                  favorite={favorited}
+                  imageSrc={
+                    result.thumbnail.path + '.' + result.thumbnail.extension
+                  }
+                  name={result.title}
+                  onClick={() => handleHearthClick(favorited, result.id)}
+                  key={result.id}
+                />
+              );
+            })
+          )
+        : [...Array(pageSize * size)].map((value) => (
+            <HeroCard loading={true} key={value} height="210px" width="210px" />
+          ))}
     </ComicListSection>
   );
 }
