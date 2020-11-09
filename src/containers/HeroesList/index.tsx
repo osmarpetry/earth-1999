@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
 import Axios, { AxiosError } from 'axios';
 import { useSWRInfinite } from 'swr';
-import styled from 'styled-components';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 
 import useDebounce from 'core/utils/hooks/useDebounce';
 import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
-import responsive from 'core/assets/styles/responsive';
 
 import ButtonHeart from 'components/ButtonHeart';
 import CheckboxToggle from 'components/CheckboxToggle';
 import HeroCard from 'components/HeroCard';
+import Placeholder from 'components/Placeholder';
 import SearchInput from 'components/InputSearch';
 import SectionHeader from 'components/SectionHeader';
-import Placeholder from 'components/Placeholder';
 
 import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
 
 import { Hero } from './model';
+
+import {
+  SectionHeader2,
+  SectionHeaderStyled,
+  SpanRightColumnLeft,
+  CheckboxChildren,
+  SpanRightColumn,
+  SectionMain,
+  HeroesCardsWrapper,
+} from './styled';
 
 interface Data {
   offset: 0;
@@ -38,61 +46,6 @@ interface CharactersApiProps {
   name?: string;
 }
 
-const SpanRightColumn = styled.span`
-  display: flex;
-  align-items: center;
-  @media only screen and (min-width: ${responsive.desktop}) {
-    margin-left: 15px;
-  }
-`;
-
-const CheckboxChildren = styled(SpanRightColumn)`
-  display: flex;
-  align-items: center;
-  p {
-    margin-left: 10px;
-  }
-`;
-
-const SectionHeaderStyled = styled.header`
-  margin: 20px 0;
-`;
-
-const SectionHeader2 = styled.section`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
-`;
-
-const HeroesCardsWrapper = styled.div`
-  display: flex;
-`;
-
-const SectionMain = styled.main`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  @media only screen and (max-width: ${responsive.mobile}) {
-    section {
-      width: 100%;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-`;
-
-const SpanRightColumnLeft = styled(SpanRightColumn)`
-  @media only screen and (max-width: ${responsive.mobile}) {
-    margin-bottom: 15px;
-  }
-`;
-
 function HeroesList() {
   const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
   const url = 'https://gateway.marvel.com:443/v1/public/characters';
@@ -110,10 +63,7 @@ function HeroesList() {
   const [favorites] = useLocalStorage<Hero[]>(`favorites`, []);
   const isMaxFavorites = favorites.length >= 5;
 
-  const { data, error, isValidating, size, setSize } = useSWRInfinite<
-    Data,
-    AxiosError
-  >(
+  const { data, error, size, setSize } = useSWRInfinite<Data, AxiosError>(
     (index) => [index, orderBy, deboucePageSize, debouceSearch],
     (index: number) => {
       const customParams: CharactersApiProps = {

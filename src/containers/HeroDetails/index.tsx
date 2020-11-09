@@ -6,7 +6,6 @@ import useSWR from 'swr';
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 
 import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
-import colors from 'core/assets/styles/colors';
 
 import ComicList from './ComicList';
 

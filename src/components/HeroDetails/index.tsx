@@ -1,28 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
 import { format } from 'date-fns';
 import ContentLoader from 'react-content-loader';
 
-import responsive from 'core/assets/styles/responsive';
+import sizes from 'core/assets/styles/sizes';
 
-import ButtonHeart, { HeartIcon } from 'components/ButtonHeart';
+import { Hero } from 'containers/HeroDetails/model';
+
+import ButtonHeart from 'components/ButtonHeart';
+import HeartIcon from 'components/ButtonHeart/HeartIcon';
 import ItemWithDescription from 'components/ItemWithDescription';
 
 import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg';
 import { ReactComponent as MovieLogo } from 'assets/icones/video/Shape@1,5x.svg';
-import { Hero } from 'containers/HeroDetails/model';
-import sizes from 'core/assets/styles/sizes';
 
-const Img = styled.img`
-  height: 340px;
-  width: 310px;
-
-  @media only screen and (max-width: ${responsive.mobile}) {
-    height: 100%;
-    width: 100%;
-    align-self: center;
-  }
-`;
+import { Image } from './styled';
 
 interface HeroDetailsProps {
   disabled: boolean;
@@ -142,7 +133,7 @@ export default function HeroDetails({
     <>
       <div>
         {hero?.thumbnail && (
-          <Img
+          <Image
             style={{ borderRadius: '5px' }}
             src={hero?.thumbnail.path + '.' + hero?.thumbnail.extension}
             alt={hero.name}

@@ -1,37 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import ContentLoader from 'react-content-loader';
 
-import ButtonHeart, { HeartIcon } from 'components/ButtonHeart';
-
-import colors from 'core/assets/styles/colors';
-import fonts from 'core/assets/styles/fonts';
 import sizes from 'core/assets/styles/sizes';
 
-const HeroCardStyled = styled.section<{ width: string }>`
-  padding: 0;
-  width: ${({ width }) => width};
-  height: fit-content;
-`;
+import ButtonHeart from 'components/ButtonHeart';
+import HeartIcon from 'components/ButtonHeart/HeartIcon';
 
-const Image = styled.img<{ width: string; height: string; }>`
-  border-bottom: 3px solid red;
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
-`;
+import { HeroCardStyled, CardFooter, HeroName, Image } from './styled';
 
-const CardFooter = styled.footer`
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-`;
-
-const HeroName = styled.p`
-  margin: 0;
-  color: ${colors.fontPrimary};
-  font-weight: ${fonts.lightBold};
-`;
 
 export interface HeroCardProps {
   alt?: string;

@@ -1,34 +1,16 @@
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 import Axios, { AxiosError } from 'axios';
 import { useSWRInfinite } from 'swr';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
-
-import responsive from 'core/assets/styles/responsive';
 
 import HeroCard from 'components/HeroCard';
 import Placeholder from 'components/Placeholder';
 
 import { Comic } from './model';
 
-const ComicListSection = styled.section`
-  @media only screen and (min-width: ${responsive.desktop}) {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+import { ComicListSection } from './styled';
 
-  @media only screen and (max-width: ${responsive.mobile}) {
-    section {
-      width: 100%;
-    }
-    img {
-      height: 100%;
-      width: 100%;
-    }
-  }
-`;
 
 interface ComicListProps {
   id: number;

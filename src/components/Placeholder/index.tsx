@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, { FC } from 'react';
-import styled from 'styled-components';
 
 import spiderman from './logo192.png';
+
+import { PlaceholderWrapper } from './styled';
 
 interface PlaceholderProps {
   status: 'loading' | 'success' | 'error';
@@ -10,12 +11,6 @@ interface PlaceholderProps {
   contentsName?: string | React.ReactElement;
   children: React.ReactElement;
 }
-
-const PlaceholderWrapper = styled.div`
-  text-align: center;
-  width: 100%;
-  height: 100%;
-`;
 
 const Placeholder: FC<PlaceholderProps> = ({
   status,
