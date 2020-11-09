@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Reset } from 'styled-reset';
 
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
-import { version as appVersion } from './../package.json'
+import { version as appVersion } from './../package.json';
 
 import reportWebVitals from './reportWebVitals';
 
 import { GlobalStyle } from 'core/assets/styles/global';
 
-import HeroesList from './containers/HeroesList';
+import GoogleAnalytics from 'GoogleAnalytics';
+import HeroesList from 'containers/HeroesList';
 import HeroDetails from 'containers/HeroDetails';
 
 if (process.env.NODE_ENV !== 'development') {
@@ -30,6 +31,7 @@ ReactDOM.render(
     <Reset />
     <GlobalStyle />
     <BrowserRouter>
+      <GoogleAnalytics />
       <Switch>
         <Route exact path="/" component={HeroesList} />
         <Route path="/hero/:id" component={HeroDetails} />
