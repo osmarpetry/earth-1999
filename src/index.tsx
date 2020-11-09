@@ -31,7 +31,7 @@ ReactDOM.render(
     <Reset />
     <GlobalStyle />
     <BrowserRouter>
-      <GoogleAnalytics />
+      {process.env.NODE_ENV !== 'development' && <GoogleAnalytics />}
       <Switch>
         <Route exact path="/" component={HeroesList} />
         <Route path="/hero/:id" component={HeroDetails} />
