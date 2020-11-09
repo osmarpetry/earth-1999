@@ -16,10 +16,6 @@ interface ComicListProps {
   onLastComicDate: (date: string) => void
 }
 
-const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d'
-const url = (characterId: number) =>
-  `https://gateway.marvel.com:443/v1/public/characters/${characterId}/comics`
-
 export interface Data {
   offset: number
   limit: number
@@ -33,6 +29,7 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
   const isMaxFavorites = favorites.length >= 5
 
   const pageSize = 10
+
   const { data, error, isValidating, size, setSize } = useSWRInfinite<
     Data,
     AxiosError
@@ -44,19 +41,17 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
         offset: index === 0 ? 0 : index * pageSize,
         orderBy: '-onsaleDate'
       }
-      const params = { ...customParams, apikey: publicKey }
 
-      return Axios.get(`${url(id)}`, { params: params }).then(response => {
+      return Axios.get(
+        `https://gateway.marvel.com:443/v1/public/characters/${id}/comics`,
+        {
+          params: { ...customParams, apikey: process.env.REACT_APP_PUBLIC_KEY }
+        }
+      ).then(response => {
         return response.data.data
       })
     }
   )
-
-  const infiniteRef = useInfiniteScroll({
-    loading: isValidating,
-    hasNextPage: size * pageSize <= (data ? data[0].total : 0),
-    onLoadMore: () => setSize(size + 1)
-  })
 
   const handleHearthClick = (favorited: boolean, resultId: number) => {
     if (!favorited && !isMaxFavorites) {
@@ -69,17 +64,15 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
     }
   }
 
+  const infiniteRef = useInfiniteScroll({
+    loading: isValidating || data?.length === 0,
+    hasNextPage: size * pageSize <= (data ? data[0].total : 0),
+    onLoadMore: () => setSize(size + 1)
+  })
+
   useMemo(() => {
-    if (data)
-      onLastComicDate(
-        (data &&
-          data.length > 0 &&
-          data[0].results &&
-          data[0].results.length > 0 &&
-          data[0].results[0].dates &&
-          data[0].results[0].dates[0].date) ||
-          new Date().toString()
-      )
+    if (data && data[0]?.results[0]?.dates[0]?.date)
+      onLastComicDate(data[0]?.results[0]?.dates[0]?.date)
   }, [data, onLastComicDate])
 
   return (

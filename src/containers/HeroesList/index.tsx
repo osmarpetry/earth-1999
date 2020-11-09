@@ -5,7 +5,8 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import useLocalStorage, { writeStorage } from '@rehooks/local-storage'
 
 import useDebounce from 'core/utils/hooks/useDebounce'
-import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes'
+import getPossibleHeroes from 'core/utils/possibleHeroes'
+import { AllHeroes } from 'core/utils/heroes'
 
 import ButtonHeart from 'components/ButtonHeart'
 import CheckboxToggle from 'components/CheckboxToggle'
@@ -47,36 +48,38 @@ interface CharactersApiProps {
 }
 
 function HeroesList() {
-  const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d'
-  const url = 'https://gateway.marvel.com:443/v1/public/characters'
-  const [pageSize] = useState(20)
-  const deboucePageSize = useDebounce(pageSize, 1000)
-  const [orderBy, setOderBy] = useState<OrderBy>('-modified')
   const [search, setSeach] = useState('')
   const debouceSearch = useDebounce(search, 1000)
-  const [isSugestionsOpen, setIsSugestionOpen] = useState(false)
-  const [justFavorites, setJustFavorites] = useState(false)
 
-  const [possibleHeroes, setPossibleHeroes] = useState<
-    { id: number | undefined; name: string }[]
-  >([])
+  const [orderBy, setOderBy] = useState<OrderBy>('-modified')
+
+  const [isSugestionsOpen, setIsSugestionOpen] = useState(false)
+  const [possibleHeroes, setPossibleHeroes] = useState<AllHeroes[]>([])
+  const [justFavorites, setJustFavorites] = useState(false)
   const [favorites] = useLocalStorage<Hero[]>(`favorites`, [])
+
   const isMaxFavorites = favorites.length >= 5
+  const pageSize = 20
 
   const { data, error, size, setSize } = useSWRInfinite<Data, AxiosError>(
-    index => [index, orderBy, deboucePageSize, debouceSearch],
+    index => [index, orderBy, pageSize, debouceSearch],
     (index: number) => {
       const customParams: CharactersApiProps = {
-        limit: deboucePageSize,
+        limit: pageSize,
         offset: index === 0 ? 0 : index * pageSize,
         orderBy
       }
 
       if (debouceSearch !== '') customParams.name = debouceSearch
 
-      const params = { ...customParams, apikey: publicKey }
+      const params = {
+        ...customParams,
+        apikey: process.env.REACT_APP_PUBLIC_KEY
+      }
 
-      return Axios.get(url, { params: params }).then(response => {
+      return Axios.get('https://gateway.marvel.com:443/v1/public/characters', {
+        params: params
+      }).then(response => {
         return response.data.data
       })
     }
@@ -84,27 +87,7 @@ function HeroesList() {
 
   const handleSearch = (value: string) => {
     setSeach(value)
-
-    const possibleHero: AllHeroes[] = value
-      ? allHeroesIn08Nov2020.reduce(
-          (accumulator: AllHeroes[], currentValue: AllHeroes) => {
-            if (accumulator.length > 14) {
-              return accumulator
-            }
-            if (
-              currentValue.name
-                .toLocaleLowerCase()
-                .includes(value.toLocaleLowerCase())
-            ) {
-              return [...accumulator, currentValue]
-            }
-            return accumulator
-          },
-          []
-        )
-      : []
-
-    setPossibleHeroes([{ id: undefined, name: value }, ...possibleHero])
+    setPossibleHeroes([{ id: undefined, name: value }, ...getPossibleHeroes(value)])
     setIsSugestionOpen(true)
   }
 
