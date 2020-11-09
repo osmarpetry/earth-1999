@@ -87,7 +87,10 @@ function HeroesList() {
 
   const handleSearch = (value: string) => {
     setSeach(value)
-    setPossibleHeroes([{ id: undefined, name: value }, ...getPossibleHeroes(value)])
+    setPossibleHeroes([
+      { id: undefined, name: value },
+      ...getPossibleHeroes(value)
+    ])
     setIsSugestionOpen(true)
   }
 

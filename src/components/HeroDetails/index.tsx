@@ -170,7 +170,7 @@ export default function HeroDetails({
             />
           </div>
           <div style={{ marginTop: '10px' }}>
-            {lastRelease  ? (
+            {lastRelease ? (
               <ItemWithDescription
                 itemName='Last release'
                 description={format(

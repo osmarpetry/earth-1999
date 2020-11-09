@@ -32,12 +32,17 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
     "type-check": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
     "prettier": "prettier --write \"./**/*.{ts,tsx,js,jsx,json}\"",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public --no-dll",
     "build-storybook": "build-storybook -s public --no-dll"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +64,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
+    "@cypress/webpack-preprocessor": "5.4.10",
     "@storybook/addon-actions": "^6.0.28",
     "@storybook/addon-essentials": "^6.0.28",
     "@storybook/addon-links": "^6.0.28",
@@ -69,6 +75,8 @@
     "@types/styled-components": "5.1.4",
     "babel-loader": "^8.1.0",
     "chromatic": "5.3.0",
+    "cypress": "5.5.0",
+    "cypress-cucumber-preprocessor": "4.0.0",
     "prettier": "2.1.2",
     "react-is": "^17.0.1"
   }

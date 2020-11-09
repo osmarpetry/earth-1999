@@ -20,7 +20,6 @@ export const ComicListSection = styled.section`
   }
 `
 
-
 export const StyledMain = styled.main`
   display: flex;
   .left {
@@ -76,4 +75,3 @@ export const Section = styled.section`
   height: 100%;
   width: 100%;
 `
-
