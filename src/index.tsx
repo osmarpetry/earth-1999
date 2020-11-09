@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { Reset } from 'styled-reset'
+import { Reset } from 'styled-reset';
+
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+import { version as appVersion } from './../package.json'
 
 import reportWebVitals from './reportWebVitals';
 
@@ -10,16 +14,29 @@ import { GlobalStyle } from 'core/assets/styles/global';
 import HeroesList from './containers/HeroesList';
 import HeroDetails from 'containers/HeroDetails';
 
+console.log(process.env.NODE_ENV, appVersion);
+
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    dsn:
+      'https://33ae6e879f9e4a6fa30dfc7017702685@o431471.ingest.sentry.io/5509039',
+    environment: process.env.NODE_ENV,
+    release: appVersion,
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: 1.0,
+  });
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <Reset />
-      <GlobalStyle />
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={HeroesList} />
-          <Route path="/hero/:id" component={HeroDetails} />
-        </Switch>
-      </BrowserRouter>
+    <GlobalStyle />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={HeroesList} />
+        <Route path="/hero/:id" component={HeroDetails} />
+      </Switch>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
