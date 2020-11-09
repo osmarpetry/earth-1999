@@ -4,5 +4,5 @@ export default {
   h2Size: '2.5rem',
   h3Size: '1.8rem',
   paragraphSize: '1.5rem',
-  lineHeightParagraph:  '2.5rem',
-};
+  lineHeightParagraph: '2.5rem'
+}

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import responsive from 'core/assets/styles/responsive';
+import responsive from 'core/assets/styles/responsive'
 
 export const ComicListSection = styled.section`
   @media only screen and (min-width: ${responsive.desktop}) {
@@ -18,4 +18,4 @@ export const ComicListSection = styled.section`
       width: 100%;
     }
   }
-`;
+`

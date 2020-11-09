@@ -1,19 +1,19 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
-import { ItemWithDescriptionWrapper, ItemName, Description } from './styled';
+import { ItemWithDescriptionWrapper, ItemName, Description } from './styled'
 
 export interface ItemWithDescriptionProps {
-  description?: string | number | React.ReactNode;
-  descriptionLogo?: ReactNode;
-  hasTwoLines?: boolean;
-  itemName: string;
+  description?: string | number | React.ReactNode
+  descriptionLogo?: ReactNode
+  hasTwoLines?: boolean
+  itemName: string
 }
 
 export default function ItemWithDescription({
   description,
   descriptionLogo,
   hasTwoLines = false,
-  itemName,
+  itemName
 }: ItemWithDescriptionProps) {
   return (
     <ItemWithDescriptionWrapper hasTwoLines={hasTwoLines}>
@@ -25,5 +25,5 @@ export default function ItemWithDescription({
         </span>
       </Description>
     </ItemWithDescriptionWrapper>
-  );
+  )
 }

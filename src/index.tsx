@@ -1,19 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { Reset } from 'styled-reset';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Reset } from 'styled-reset'
 
-import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/tracing';
-import { version as appVersion } from './../package.json';
+import * as Sentry from '@sentry/react'
+import { Integrations } from '@sentry/tracing'
+import { version as appVersion } from './../package.json'
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals'
 
-import { GlobalStyle } from 'core/assets/styles/global';
+import { GlobalStyle } from 'core/assets/styles/global'
 
-import GoogleAnalytics from 'GoogleAnalytics';
-import HeroesList from 'containers/HeroesList';
-import HeroDetails from 'containers/HeroDetails';
+import GoogleAnalytics from 'GoogleAnalytics'
+import HeroesList from 'containers/HeroesList'
+import HeroDetails from 'containers/HeroDetails'
 
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
@@ -22,8 +22,8 @@ if (process.env.NODE_ENV !== 'development') {
     environment: process.env.NODE_ENV,
     release: appVersion,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1.0,
-  });
+    tracesSampleRate: 1.0
+  })
 }
 
 ReactDOM.render(
@@ -33,15 +33,15 @@ ReactDOM.render(
     <BrowserRouter>
       {process.env.NODE_ENV !== 'development' && <GoogleAnalytics />}
       <Switch>
-        <Route exact path="/" component={HeroesList} />
-        <Route path="/hero/:id" component={HeroDetails} />
+        <Route exact path='/' component={HeroesList} />
+        <Route path='/hero/:id' component={HeroDetails} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()

@@ -1,10 +1,10 @@
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
 
-import colors from 'core/assets/styles/colors';
-import fonts from 'core/assets/styles/fonts';
-import responsive from 'core/assets/styles/responsive';
-import sizes from 'core/assets/styles/sizes';
+import colors from 'core/assets/styles/colors'
+import fonts from 'core/assets/styles/fonts'
+import responsive from 'core/assets/styles/responsive'
+import sizes from 'core/assets/styles/sizes'
 
 export const InputWrapper = styled.div<{ isSecondary: boolean }>`
   display: flex;
@@ -66,11 +66,11 @@ export const InputWrapper = styled.div<{ isSecondary: boolean }>`
     color: ${colors.primary};
     white-space: nowrap;
   }
-`;
+`
 
 export const StyledInput = styled.input<{
-  isSecondary: boolean;
-  isSugestionsOpen: boolean;
+  isSecondary: boolean
+  isSugestionsOpen: boolean
 }>`
   border-radius: ${({ isSugestionsOpen }) =>
     isSugestionsOpen ? '15px 15px 0 0' : '15px'};
@@ -80,9 +80,9 @@ export const StyledInput = styled.input<{
   padding: 15px;
   color: ${colors.primary};
   font-weight: ${fonts.lightBold};
-`;
+`
 
-export  const SugestionsList = styled.ul<{ isSecondary: boolean }>`
+export const SugestionsList = styled.ul<{ isSecondary: boolean }>`
   background: ${({ isSecondary }) => (isSecondary ? '#ffff' : '#fdecec')};
   border-radius: 0 0 15px 10px;
   margin: 0;
@@ -95,18 +95,18 @@ export  const SugestionsList = styled.ul<{ isSecondary: boolean }>`
     padding: 10px 0;
     text-align: center;
   }
-`;
+`
 
-export  const SugestionItemStyle = css`
+export const SugestionItemStyle = css`
   width: 100%;
   height: 100%;
   font-size: ${sizes.paragraphSize};
-`;
+`
 
 export const SugestionButtonItem = styled(Link)`
   ${SugestionItemStyle}
-`;
+`
 
-export  const SugestionItemStyleSpan = styled.span`
+export const SugestionItemStyleSpan = styled.span`
   ${SugestionItemStyle}
-`;
+`

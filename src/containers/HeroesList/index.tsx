@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import Axios, { AxiosError } from 'axios';
-import { useSWRInfinite } from 'swr';
-import useInfiniteScroll from 'react-infinite-scroll-hook';
-import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
+import React, { useState } from 'react'
+import Axios, { AxiosError } from 'axios'
+import { useSWRInfinite } from 'swr'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
+import useLocalStorage, { writeStorage } from '@rehooks/local-storage'
 
-import useDebounce from 'core/utils/hooks/useDebounce';
-import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
+import useDebounce from 'core/utils/hooks/useDebounce'
+import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes'
 
-import ButtonHeart from 'components/ButtonHeart';
-import CheckboxToggle from 'components/CheckboxToggle';
-import HeroCard from 'components/HeroCard';
-import Placeholder from 'components/Placeholder';
-import SearchInput from 'components/InputSearch';
-import SectionHeader from 'components/SectionHeader';
+import ButtonHeart from 'components/ButtonHeart'
+import CheckboxToggle from 'components/CheckboxToggle'
+import HeroCard from 'components/HeroCard'
+import Placeholder from 'components/Placeholder'
+import SearchInput from 'components/InputSearch'
+import SectionHeader from 'components/SectionHeader'
 
-import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg';
-import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
+import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg'
+import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg'
 
-import { Hero } from './model';
+import { Hero } from './model'
 
 import {
   SectionHeader2,
@@ -26,91 +26,91 @@ import {
   CheckboxChildren,
   SpanRightColumn,
   SectionMain,
-  HeroesCardsWrapper,
-} from './styled';
+  HeroesCardsWrapper
+} from './styled'
 
 interface Data {
-  offset: 0;
-  limit: 20;
-  total: 1493;
-  count: 20;
-  results: Hero[];
+  offset: 0
+  limit: 20
+  total: 1493
+  count: 20
+  results: Hero[]
 }
 
-type OrderBy = 'name' | '-name' | 'modified' | '-modified';
+type OrderBy = 'name' | '-name' | 'modified' | '-modified'
 
 interface CharactersApiProps {
-  limit: number;
-  offset: number;
-  orderBy: OrderBy;
-  name?: string;
+  limit: number
+  offset: number
+  orderBy: OrderBy
+  name?: string
 }
 
 function HeroesList() {
-  const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
-  const url = 'https://gateway.marvel.com:443/v1/public/characters';
-  const [pageSize] = useState(20);
-  const deboucePageSize = useDebounce(pageSize, 1000);
-  const [orderBy, setOderBy] = useState<OrderBy>('-modified');
-  const [search, setSeach] = useState('');
-  const debouceSearch = useDebounce(search, 1000);
-  const [isSugestionsOpen, setIsSugestionOpen] = useState(false);
-  const [justFavorites, setJustFavorites] = useState(false);
+  const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d'
+  const url = 'https://gateway.marvel.com:443/v1/public/characters'
+  const [pageSize] = useState(20)
+  const deboucePageSize = useDebounce(pageSize, 1000)
+  const [orderBy, setOderBy] = useState<OrderBy>('-modified')
+  const [search, setSeach] = useState('')
+  const debouceSearch = useDebounce(search, 1000)
+  const [isSugestionsOpen, setIsSugestionOpen] = useState(false)
+  const [justFavorites, setJustFavorites] = useState(false)
 
   const [possibleHeroes, setPossibleHeroes] = useState<
     { id: number | undefined; name: string }[]
-  >([]);
-  const [favorites] = useLocalStorage<Hero[]>(`favorites`, []);
-  const isMaxFavorites = favorites.length >= 5;
+  >([])
+  const [favorites] = useLocalStorage<Hero[]>(`favorites`, [])
+  const isMaxFavorites = favorites.length >= 5
 
   const { data, error, size, setSize } = useSWRInfinite<Data, AxiosError>(
-    (index) => [index, orderBy, deboucePageSize, debouceSearch],
+    index => [index, orderBy, deboucePageSize, debouceSearch],
     (index: number) => {
       const customParams: CharactersApiProps = {
         limit: deboucePageSize,
         offset: index === 0 ? 0 : index * pageSize,
-        orderBy,
-      };
+        orderBy
+      }
 
-      if (debouceSearch !== '') customParams.name = debouceSearch;
+      if (debouceSearch !== '') customParams.name = debouceSearch
 
-      const params = { ...customParams, apikey: publicKey };
+      const params = { ...customParams, apikey: publicKey }
 
-      return Axios.get(url, { params: params }).then((response) => {
-        return response.data.data;
-      });
+      return Axios.get(url, { params: params }).then(response => {
+        return response.data.data
+      })
     }
-  );
+  )
 
   const handleSearch = (value: string) => {
-    setSeach(value);
+    setSeach(value)
 
     const possibleHero: AllHeroes[] = value
       ? allHeroesIn08Nov2020.reduce(
           (accumulator: AllHeroes[], currentValue: AllHeroes) => {
             if (accumulator.length > 14) {
-              return accumulator;
+              return accumulator
             }
             if (
               currentValue.name
                 .toLocaleLowerCase()
                 .includes(value.toLocaleLowerCase())
             ) {
-              return [...accumulator, currentValue];
+              return [...accumulator, currentValue]
             }
-            return accumulator;
+            return accumulator
           },
           []
         )
-      : [];
+      : []
 
-    setPossibleHeroes([{ id: undefined, name: value }, ...possibleHero]);
-    setIsSugestionOpen(true);
-  };
+    setPossibleHeroes([{ id: undefined, name: value }, ...possibleHero])
+    setIsSugestionOpen(true)
+  }
 
   const handleOrderBy = () => {
-    setOderBy(orderBy === '-modified' ? 'name' : '-modified');
-  };
+    setOderBy(orderBy === '-modified' ? 'name' : '-modified')
+  }
 
   const handleButtonClick = (favorited: boolean, hero: Hero) => {
     if (!favorited && !isMaxFavorites) {
@@ -119,28 +119,28 @@ function HeroesList() {
         {
           id: hero.id,
           name: hero.name,
-          thumbnail: hero.thumbnail,
-        },
-      ]);
+          thumbnail: hero.thumbnail
+        }
+      ])
     } else {
       writeStorage(
         'favorites',
-        favorites.filter((favorite) => favorite.id !== hero.id)
-      );
+        favorites.filter(favorite => favorite.id !== hero.id)
+      )
     }
-  };
+  }
 
   const infiniteRef = useInfiniteScroll({
     loading: false,
     hasNextPage: size * pageSize <= (data ? data[0].total : 0),
-    onLoadMore: () => setSize(size + 1),
-  });
+    onLoadMore: () => setSize(size + 1)
+  })
 
   return (
     <div>
       <SectionHeader2>
         <header>
-          <MarvelHeaderLogo width="228px" />
+          <MarvelHeaderLogo width='228px' />
           <h2>EXPLORE THE UNIVERSE</h2>
         </header>
         <main>
@@ -150,17 +150,17 @@ function HeroesList() {
           </p>
           <div style={{ marginTop: '30px' }}>
             <SearchInput
-              placeholder="Type a hero name..."
+              placeholder='Type a hero name...'
               isSugestionsOpen={isSugestionsOpen}
-              label="Search for heroes"
-              name="hero-search"
-              onChange={(value) => handleSearch(value)}
+              label='Search for heroes'
+              name='hero-search'
+              onChange={value => handleSearch(value)}
               sugestions={possibleHeroes}
               value={search}
               onInputFocus={() => setIsSugestionOpen(true)}
-              onSugestionsCloseClick={(sugestion) => {
-                setIsSugestionOpen(false);
-                setSeach(sugestion ? sugestion.name : search);
+              onSugestionsCloseClick={sugestion => {
+                setIsSugestionOpen(false)
+                setSeach(sugestion ? sugestion.name : search)
               }}
             />
           </div>
@@ -179,8 +179,7 @@ function HeroesList() {
                 <SpanRightColumnLeft>
                   <CheckboxToggle
                     checked={orderBy.includes('name')}
-                    onClick={handleOrderBy}
-                  >
+                    onClick={handleOrderBy}>
                     <CheckboxChildren>
                       <HeroLogo />
                       <p>Order by name - A/Z</p>
@@ -191,8 +190,7 @@ function HeroesList() {
                   <ButtonHeart
                     disabled={false}
                     value={justFavorites}
-                    onClick={() => setJustFavorites(!justFavorites)}
-                  >
+                    onClick={() => setJustFavorites(!justFavorites)}>
                     Just the favorites
                   </ButtonHeart>
                 </SpanRightColumn>
@@ -203,18 +201,17 @@ function HeroesList() {
         <SectionMain>
           {justFavorites ? (
             <HeroesCardsWrapper>
-              {favorites.map((favoriteHero) => {
+              {favorites.map(favoriteHero => {
                 const favorited =
-                  favorites.filter(
-                    (favorite) => favorite.id === favoriteHero.id
-                  ).length > 0;
-                const disabled = isMaxFavorites && !favorited;
+                  favorites.filter(favorite => favorite.id === favoriteHero.id)
+                    .length > 0
+                const disabled = isMaxFavorites && !favorited
 
                 return (
                   <div>
                     <HeroCard
-                      height="210px"
-                      width="210px"
+                      height='210px'
+                      width='210px'
                       alt={favoriteHero.name}
                       linkTo={`hero/${favoriteHero.id}`}
                       imageSrc={
@@ -229,28 +226,26 @@ function HeroesList() {
                       key={favoriteHero.id}
                     />
                   </div>
-                );
+                )
               })}
             </HeroesCardsWrapper>
           ) : (
             <Placeholder
               isEmpty={!data || data?.length <= 0}
               status={data && !error ? 'success' : !error ? 'loading' : 'error'}
-              contentsName="heroes"
-            >
+              contentsName='heroes'>
               <>
                 {data
-                  ? data?.map((heros) =>
-                      heros.results.map((hero) => {
+                  ? data?.map(heros =>
+                      heros.results.map(hero => {
                         const favorited =
-                          favorites.filter(
-                            (favorite) => favorite.id === hero.id
-                          ).length > 0;
-                        const disabled = isMaxFavorites && !favorited;
+                          favorites.filter(favorite => favorite.id === hero.id)
+                            .length > 0
+                        const disabled = isMaxFavorites && !favorited
                         return (
                           <HeroCard
-                            height="210px"
-                            width="210px"
+                            height='210px'
+                            width='210px'
                             alt={hero.name}
                             linkTo={`hero/${hero.id}`}
                             imageSrc={
@@ -264,15 +259,15 @@ function HeroesList() {
                             onClick={() => handleButtonClick(favorited, hero)}
                             key={hero.id}
                           />
-                        );
+                        )
                       })
                     )
-                  : [...Array(pageSize * size)].map((value) => (
+                  : [...Array(pageSize * size)].map(value => (
                       <HeroCard
                         loading={true}
                         key={value}
-                        height="210px"
-                        width="210px"
+                        height='210px'
+                        width='210px'
                       />
                     ))}
               </>
@@ -281,7 +276,7 @@ function HeroesList() {
         </SectionMain>
       </section>
     </div>
-  );
+  )
 }
 
-export default HeroesList;
+export default HeroesList

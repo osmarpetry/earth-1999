@@ -1,27 +1,27 @@
-import React from 'react';
-import { Story, Meta } from '@storybook/react/types-6-0';
+import React from 'react'
+import { Story, Meta } from '@storybook/react/types-6-0'
 
-import InputSearch, { SearchInputProps } from 'components/InputSearch';
-import { BrowserRouter } from 'react-router-dom';
+import InputSearch, { SearchInputProps } from 'components/InputSearch'
+import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Components/InputSearch',
-  component: InputSearch,
-} as Meta;
+  component: InputSearch
+} as Meta
 
-const Template: Story<SearchInputProps> = (args) => (
+const Template: Story<SearchInputProps> = args => (
   <BrowserRouter>
     <InputSearch {...args} />
   </BrowserRouter>
-);
+)
 
-export const Primary = Template.bind({});
+export const Primary = Template.bind({})
 Primary.args = {
   label: 'Buscar herói',
-  name: 'seach',
-};
+  name: 'seach'
+}
 
-export const Sugestions = Template.bind({});
+export const Sugestions = Template.bind({})
 Sugestions.args = {
   label: 'Buscar herói',
   name: 'seach',
@@ -30,18 +30,18 @@ Sugestions.args = {
   sugestions: [
     { id: undefined, name: 'hul' },
     { id: 1, name: 'Hulk' },
-    { id: 2, name: 'She-Hulk' },
-  ],
-};
+    { id: 2, name: 'She-Hulk' }
+  ]
+}
 
-export const Secondary = Template.bind({});
+export const Secondary = Template.bind({})
 Secondary.args = {
   label: 'Buscar herói',
   name: 'seach',
-  isSecondary: true,
-};
+  isSecondary: true
+}
 
-export const SugestionsSecondary = Template.bind({});
+export const SugestionsSecondary = Template.bind({})
 SugestionsSecondary.args = {
   label: 'Buscar herói',
   name: 'seach',
@@ -50,7 +50,7 @@ SugestionsSecondary.args = {
   sugestions: [
     { id: undefined, name: 'hul' },
     { id: 1, name: 'Hulk' },
-    { id: 2, name: 'She-Hulk' },
+    { id: 2, name: 'She-Hulk' }
   ],
-  isSecondary: true,
-};
+  isSecondary: true
+}

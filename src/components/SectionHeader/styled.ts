@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import colors from 'core/assets/styles/colors';
-import responsive from 'core/assets/styles/responsive';
-import sizes from 'core/assets/styles/sizes';
+import colors from 'core/assets/styles/colors'
+import responsive from 'core/assets/styles/responsive'
+import sizes from 'core/assets/styles/sizes'
 
 export const SectionHeaderWrapper = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ export const SectionHeaderWrapper = styled.div`
       font-size: ${sizes.paragraphSize};
     }
   }
-`;
+`
 
 export const LeftColumn = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ export const LeftColumn = styled.div`
   @media only screen and (max-width: ${responsive.mobile}) {
     width: 100%;
   }
-`;
+`
 
 export const RightColumn = styled.div`
   display: flex;
@@ -40,4 +40,4 @@ export const RightColumn = styled.div`
     align-items: center;
     flex-direction: column;
   }
-`;
+`

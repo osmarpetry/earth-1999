@@ -1,74 +1,73 @@
-import React, { useMemo } from 'react';
-import Axios, { AxiosError } from 'axios';
-import { useSWRInfinite } from 'swr';
-import useInfiniteScroll from 'react-infinite-scroll-hook';
-import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
+import React, { useMemo } from 'react'
+import Axios, { AxiosError } from 'axios'
+import { useSWRInfinite } from 'swr'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
+import useLocalStorage, { writeStorage } from '@rehooks/local-storage'
 
-import HeroCard from 'components/HeroCard';
-import Placeholder from 'components/Placeholder';
+import HeroCard from 'components/HeroCard'
+import Placeholder from 'components/Placeholder'
 
-import { Comic } from './model';
+import { Comic } from './model'
 
-import { ComicListSection } from './styled';
-
+import { ComicListSection } from './styled'
 
 interface ComicListProps {
-  id: number;
-  onLastComicDate: (date: string) => void;
+  id: number
+  onLastComicDate: (date: string) => void
 }
 
-const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d';
+const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d'
 const url = (characterId: number) =>
-  `https://gateway.marvel.com:443/v1/public/characters/${characterId}/comics`;
+  `https://gateway.marvel.com:443/v1/public/characters/${characterId}/comics`
 
 export interface Data {
-  offset: number;
-  limit: number;
-  total: number;
-  count: number;
-  results: Comic[];
+  offset: number
+  limit: number
+  total: number
+  count: number
+  results: Comic[]
 }
 
 function ComicList({ id, onLastComicDate }: ComicListProps) {
-  const [favorites] = useLocalStorage(`favorites-comics-${id}`, []);
-  const isMaxFavorites = favorites.length >= 5;
+  const [favorites] = useLocalStorage(`favorites-comics-${id}`, [])
+  const isMaxFavorites = favorites.length >= 5
 
-  const pageSize = 10;
+  const pageSize = 10
   const { data, error, isValidating, size, setSize } = useSWRInfinite<
     Data,
     AxiosError
   >(
-    (index) => [index, id],
+    index => [index, id],
     (index: number) => {
       const customParams = {
         limit: pageSize,
         offset: index === 0 ? 0 : index * pageSize,
-        orderBy: '-onsaleDate',
-      };
-      const params = { ...customParams, apikey: publicKey };
+        orderBy: '-onsaleDate'
+      }
+      const params = { ...customParams, apikey: publicKey }
 
-      return Axios.get(`${url(id)}`, { params: params }).then((response) => {
-        return response.data.data;
-      });
+      return Axios.get(`${url(id)}`, { params: params }).then(response => {
+        return response.data.data
+      })
     }
-  );
+  )
 
   const infiniteRef = useInfiniteScroll({
     loading: isValidating,
     hasNextPage: size * pageSize <= (data ? data[0].total : 0),
-    onLoadMore: () => setSize(size + 1),
-  });
+    onLoadMore: () => setSize(size + 1)
+  })
 
   const handleHearthClick = (favorited: boolean, resultId: number) => {
     if (!favorited && !isMaxFavorites) {
-      writeStorage(`favorites-comics-${id}`, [...favorites, resultId]);
+      writeStorage(`favorites-comics-${id}`, [...favorites, resultId])
     } else {
       writeStorage(
         `favorites-comics-${id}`,
-        favorites.filter((favorite) => favorite !== resultId)
-      );
+        favorites.filter(favorite => favorite !== resultId)
+      )
     }
-  };
+  }
 
   useMemo(() => {
     if (data)
@@ -80,28 +79,27 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
           data[0].results[0].dates &&
           data[0].results[0].dates[0].date) ||
           new Date().toString()
-      );
-  }, [data, onLastComicDate]);
+      )
+  }, [data, onLastComicDate])
 
   return (
     <Placeholder
       isEmpty={data && data[0].count < 1 ? true : false}
-      contentsName="HQs"
-      status={error ? 'error' : data ? 'success' : 'loading'}
-    >
+      contentsName='HQs'
+      status={error ? 'error' : data ? 'success' : 'loading'}>
       <>
         <h3>Last Releases</h3>
         <ComicListSection ref={infiniteRef}>
           {data
-            ? data?.map((pages) =>
-                pages.results.map((result) => {
+            ? data?.map(pages =>
+                pages.results.map(result => {
                   const favorited =
-                    favorites.filter((favorite) => favorite === result.id)
-                      .length > 0;
+                    favorites.filter(favorite => favorite === result.id)
+                      .length > 0
                   return (
                     <HeroCard
-                      height="210px"
-                      width="190px"
+                      height='210px'
+                      width='190px'
                       alt={result.title}
                       disabled={isMaxFavorites && !favorited}
                       favorite={favorited}
@@ -112,21 +110,21 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
                       onClick={() => handleHearthClick(favorited, result.id)}
                       key={result.id}
                     />
-                  );
+                  )
                 })
               )
-            : [...Array(pageSize * size)].map((value) => (
+            : [...Array(pageSize * size)].map(value => (
                 <HeroCard
                   loading={true}
                   key={value}
-                  height="210px"
-                  width="210px"
+                  height='210px'
+                  width='210px'
                 />
               ))}
         </ComicListSection>
       </>
     </Placeholder>
-  );
+  )
 }
 
-export default ComicList;
+export default ComicList

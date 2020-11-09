@@ -1,8 +1,8 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 interface ButtonStyledProps {
-  color: string;
-  isDisabled: boolean;
+  color: string
+  isDisabled: boolean
 }
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -22,4 +22,4 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
     css`
       opacity: 0.4;
     `}
-`;
+`

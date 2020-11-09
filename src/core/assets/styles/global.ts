@@ -1,6 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
-import colors from './colors';
-import sizes from './sizes';
+import { createGlobalStyle } from 'styled-components'
+import colors from './colors'
+import sizes from './sizes'
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -49,6 +49,6 @@ export const GlobalStyle = createGlobalStyle`
     font-size: ${sizes.paragraphSize};
     line-height: ${sizes.lineHeightParagraph};
   }
-`;
+`
 
 export default GlobalStyle

@@ -1,29 +1,29 @@
-import React from 'react';
+import React from 'react'
 
-import { CheckboxTogleWrapper, CheckBoxToggleStyled } from './styled';
+import { CheckboxTogleWrapper, CheckBoxToggleStyled } from './styled'
 
 export interface CheckboxToggleProps {
-  checked?: boolean;
-  children?: React.ReactNode;
-  onClick?: () => void;
+  checked?: boolean
+  children?: React.ReactNode
+  onClick?: () => void
 }
 
 export default function CheckboxToggle({
   checked,
   children,
-  onClick,
+  onClick
 }: CheckboxToggleProps) {
   return (
     <CheckboxTogleWrapper>
-      <label htmlFor="checkbox">{children && children}</label>
+      <label htmlFor='checkbox'>{children && children}</label>
       <CheckBoxToggleStyled
-        type="checkbox"
-        name="checkbox"
+        type='checkbox'
+        name='checkbox'
         defaultChecked={false}
-        defaultValue="Teste"
+        defaultValue='Teste'
         checked={checked}
         onClick={onClick}
       />
     </CheckboxTogleWrapper>
-  );
+  )
 }

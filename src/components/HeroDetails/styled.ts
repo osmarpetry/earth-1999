@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import responsive from 'core/assets/styles/responsive';
+import responsive from 'core/assets/styles/responsive'
 
 export const Image = styled.img`
   height: 340px;
@@ -11,4 +11,4 @@ export const Image = styled.img`
     width: 100%;
     align-self: center;
   }
-`;
+`

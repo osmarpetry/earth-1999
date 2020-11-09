@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import colors from 'core/assets/styles/colors';
+import colors from 'core/assets/styles/colors'
 
 export const CheckBoxToggleStyled = styled.input`
   position: relative;
@@ -29,9 +29,9 @@ export const CheckBoxToggleStyled = styled.input`
     left: 20px;
     background: ${colors.primary};
   }
-`;
+`
 
 export const CheckboxTogleWrapper = styled.div`
   display: flex;
   align-items: center;
-`;
+`

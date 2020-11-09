@@ -33,6 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "type-check": "tsc --noEmit",
+    "prettier": "prettier --write \"./**/*.{ts,tsx,js,jsx,json}\"",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public --no-dll",
     "build-storybook": "build-storybook -s public --no-dll"

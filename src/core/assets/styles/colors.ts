@@ -6,5 +6,5 @@ export default {
   backgroundColorSecondary: '#E7F6E7',
   fontPrimary: '#404040',
   fontSecondary: '#8C8C8C',
-  fontAuxiliary: '#B9B9B9',
-};
+  fontAuxiliary: '#B9B9B9'
+}

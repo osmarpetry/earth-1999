@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import styled from 'styled-components';
-import Axios, { AxiosError } from 'axios';
-import useSWR from 'swr';
-import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
+import React, { useState } from 'react'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import Axios, { AxiosError } from 'axios'
+import useSWR from 'swr'
+import useLocalStorage, { writeStorage } from '@rehooks/local-storage'
 
-import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes';
+import { AllHeroes, allHeroesIn08Nov2020 } from 'core/utils/heroes'
 
-import ComicList from './ComicList';
+import ComicList from './ComicList'
 
 import HeroDetailsComponent from 'components/HeroDetails'
-import SearchInput from 'components/InputSearch';
+import SearchInput from 'components/InputSearch'
 
-import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg';
+import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg'
 
-import { Hero } from './model';
-import responsive from 'core/assets/styles/responsive';
+import { Hero } from './model'
+import responsive from 'core/assets/styles/responsive'
 
 export interface Data {
-  offset: number;
-  limit: number;
-  total: number;
-  count: number;
-  results: Hero[];
+  offset: number
+  limit: number
+  total: number
+  count: number
+  results: Hero[]
 }
 
-const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d';
-const url = 'https://gateway.marvel.com:443/v1/public/characters/';
-const params = { apikey: publicKey };
+const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d'
+const url = 'https://gateway.marvel.com:443/v1/public/characters/'
+const params = { apikey: publicKey }
 
 const StyledMain = styled.main`
   display: flex;
@@ -54,13 +54,13 @@ const StyledMain = styled.main`
   @media only screen and (max-width: ${responsive.mobile}) {
     flex-direction: column;
   }
-`;
+`
 
 const StyledFooter = styled.footer`
   h3 {
     padding-bottom: 20px;
   }
-`;
+`
 
 const StyledHeader = styled.header`
   display: flex;
@@ -73,7 +73,7 @@ const StyledHeader = styled.header`
     flex-direction: column;
     margin-bottom: 30px;
   }
-`;
+`
 
 const Section = styled.section`
   padding: 0 40px;
@@ -83,89 +83,88 @@ const Section = styled.section`
   background: gray;
   height: 100%;
   width: 100%;
-`;
-
+`
 
 interface HeroDetailsProps {
-  id: string;
+  id: string
 }
 
 function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
-  const [lastRelease, setLastRelease] = useState('');
-  const [favorites] = useLocalStorage(`favorites`, []);
-  const isMaxFavorites = favorites.length >= 5;
+  const [lastRelease, setLastRelease] = useState('')
+  const [favorites] = useLocalStorage(`favorites`, [])
+  const isMaxFavorites = favorites.length >= 5
 
-  const { data } = useSWR<Data, AxiosError>(`${url}${match.params.id}`, (url) =>
-    Axios.get(url, { params }).then((data) => data.data.data)
-  );
+  const { data } = useSWR<Data, AxiosError>(`${url}${match.params.id}`, url =>
+    Axios.get(url, { params }).then(data => data.data.data)
+  )
 
-  const hero = data?.results[0];
+  const hero = data?.results[0]
 
   const handleButtonClick = (favorited: boolean, heroId: number) => {
     if (!favorited && !isMaxFavorites) {
-      writeStorage(`favorites`, [...favorites, heroId]);
+      writeStorage(`favorites`, [...favorites, heroId])
     } else {
       writeStorage(
         'favorites',
-        favorites.filter((favorite) => favorite !== heroId)
-      );
+        favorites.filter(favorite => favorite !== heroId)
+      )
     }
-  };
+  }
 
   const favorited =
-    favorites.filter((favorite) => favorite === hero?.id).length > 0;
-  const disabled = isMaxFavorites && !favorited;
-  const [search, setSeach] = useState('');
-  const [isSugestionsOpen, setIsSugestionOpen] = useState(false);
+    favorites.filter(favorite => favorite === hero?.id).length > 0
+  const disabled = isMaxFavorites && !favorited
+  const [search, setSeach] = useState('')
+  const [isSugestionsOpen, setIsSugestionOpen] = useState(false)
 
   const [possibleHeroes, setPossibleHeroes] = useState<
     { id: number | undefined; name: string }[]
-  >([]);
+  >([])
   const handleSearch = (value: string) => {
-    setSeach(value);
+    setSeach(value)
 
     const possibleHero: AllHeroes[] = value
       ? allHeroesIn08Nov2020.reduce(
           (accumulator: AllHeroes[], currentValue: AllHeroes) => {
             if (accumulator.length > 14) {
-              return accumulator;
+              return accumulator
             }
             if (
               currentValue.name
                 .toLocaleLowerCase()
                 .includes(value.toLocaleLowerCase())
             ) {
-              return [...accumulator, currentValue];
+              return [...accumulator, currentValue]
             }
-            return accumulator;
+            return accumulator
           },
           []
         )
-      : [];
+      : []
 
-    setPossibleHeroes([{ id: 0, name: value }, ...possibleHero]);
-    setIsSugestionOpen(true);
-  };
+    setPossibleHeroes([{ id: 0, name: value }, ...possibleHero])
+    setIsSugestionOpen(true)
+  }
 
   return (
     <Section>
       <StyledHeader>
-        <Link to="/">
-          <MarvelHeaderLogo width="228px" />
+        <Link to='/'>
+          <MarvelHeaderLogo width='228px' />
         </Link>
         <SearchInput
           isSecondary
           isSugestionsOpen={isSugestionsOpen}
-          label="Procure por heroínas ou heróis"
-          name="hero-search"
+          label='Procure por heroínas ou heróis'
+          name='hero-search'
           sugestions={possibleHeroes}
           value={search}
-          placeholder="Digite o nome de uma heroína ou herói..."
-          onChange={(value) => handleSearch(value)}
+          placeholder='Digite o nome de uma heroína ou herói...'
+          onChange={value => handleSearch(value)}
           onInputFocus={() => setIsSugestionOpen(true)}
-          onSugestionsCloseClick={(sugestion) => {
-            setIsSugestionOpen(false);
-            setSeach(sugestion ? sugestion.name : search);
+          onSugestionsCloseClick={sugestion => {
+            setIsSugestionOpen(false)
+            setSeach(sugestion ? sugestion.name : search)
           }}
         />
       </StyledHeader>
@@ -183,12 +182,12 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         {hero?.id && (
           <ComicList
             id={hero.id}
-            onLastComicDate={(date) => setLastRelease(date)}
+            onLastComicDate={date => setLastRelease(date)}
           />
         )}
       </StyledFooter>
     </Section>
-  );
+  )
 }
 
-export default withRouter(HeroDetails);
+export default withRouter(HeroDetails)

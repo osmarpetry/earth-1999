@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 export default function useOutsideAlerter(ref, onClickOutise) {
   useEffect(() => {
@@ -8,9 +8,9 @@ export default function useOutsideAlerter(ref, onClickOutise) {
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClickOutise, ref]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [onClickOutise, ref])
 }
