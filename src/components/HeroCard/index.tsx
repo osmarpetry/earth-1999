@@ -15,7 +15,7 @@ const HeroCardStyled = styled.section<{ width: string }>`
   height: fit-content;
 `;
 
-const Image = styled.img<{ width: string; height: string }>`
+const Image = styled.img<{ width: string; height: string; }>`
   border-bottom: 3px solid red;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
@@ -62,7 +62,7 @@ export default function HeroCard({
     return (
       <HeroCardStyled width={width}>
         <ContentLoader
-          width={width}
+          width={'100%'}
           height={height}
           style={{ borderRadius: '3px' }}
         >

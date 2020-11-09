@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import colors from 'core/assets/styles/colors';
 
 export interface ItemWithDescriptionProps {
-  description?: string | number;
+  description?: string | number | React.ReactNode;
   descriptionLogo?: ReactNode;
   hasTwoLines?: boolean;
   itemName: string;

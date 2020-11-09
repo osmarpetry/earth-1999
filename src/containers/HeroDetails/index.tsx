@@ -47,7 +47,6 @@ const StyledMain = styled.main`
       margin-right: 30px;
     }
     span {
-      padding-bottom: 20px;
       display: flex;
       justify-content: space-between;
     }
@@ -82,7 +81,7 @@ const Section = styled.section`
   @media only screen and (max-width: ${responsive.mobile}) {
     padding: 0 10px;
   }
-  background: ${colors.backgroundColorSecondary};
+  background: gray;
   height: 100%;
   width: 100%;
 `;
@@ -174,6 +173,7 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
       <StyledMain style={{ marginBottom: '70px' }}>
         <HeroDetailsComponent
           hero={hero}
+          loading={!hero}
           favorited={favorited}
           disabled={disabled}
           handleButtonClick={handleButtonClick}

@@ -289,7 +289,7 @@ function HeroesList() {
               contentsName="heroínas ou heróis"
             >
               <>
-                {data
+                {false
                   ? data?.map((heros) =>
                       heros.results.map((hero) => {
                         const favorited =
