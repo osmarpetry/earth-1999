@@ -26,7 +26,7 @@ export interface Data {
   results: Hero[];
 }
 
-const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
+const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d';
 const url = 'https://gateway.marvel.com:443/v1/public/characters/';
 const params = { apikey: publicKey };
 
@@ -181,14 +181,9 @@ function HeroDetails({ match }: RouteComponentProps<HeroDetailsProps>) {
         />
       </StyledMain>
       <StyledFooter>
-        <h3>
-          Últimos lançamentos
-          {hero?.comics.available === 0 &&
-            '(Nenhuma HQ exclusiva deste personagem D=)'}
-        </h3>
         {hero?.id && (
           <ComicList
-            id={hero?.id}
+            id={hero.id}
             onLastComicDate={(date) => setLastRelease(date)}
           />
         )}

@@ -191,18 +191,18 @@ function HeroesList() {
       <SectionHeader2>
         <header>
           <MarvelHeaderLogo width="228px" />
-          <h2>EXPLORE O UNIVERSO</h2>
+          <h2>EXPLORE THE UNIVERSE</h2>
         </header>
         <main>
           <p>
-            Mergule no domínio deslubrante de todos os personagens clássicos que
-            você ama - e aqueles que você descobrirá em breve!
+            Immerse yourself in the dazzling realm of all the classic characters
+            you love - and those you will soon discover!
           </p>
           <div style={{ marginTop: '30px' }}>
             <SearchInput
-              placeholder="Digite o nome de uma heroína ou herói..."
+              placeholder="Type a hero name..."
               isSugestionsOpen={isSugestionsOpen}
-              label="Procure por heroínas ou heróis"
+              label="Search for heroes"
               name="hero-search"
               onChange={(value) => handleSearch(value)}
               sugestions={possibleHeroes}
@@ -221,7 +221,7 @@ function HeroesList() {
           <SectionHeader
             leftColumn={
               <p style={{ width: '100%', textAlign: 'center' }}>
-                Encontrados {pageSize * (data?.length || 1)} heroínas e heróis{' '}
+                Found {pageSize * (data?.length || 1)} heroes
               </p>
             }
             rightColumn={
@@ -233,7 +233,7 @@ function HeroesList() {
                   >
                     <CheckboxChildren>
                       <HeroLogo />
-                      <p>Ordernar por nome - A/Z</p>
+                      <p>Order by name - A/Z</p>
                     </CheckboxChildren>
                   </CheckboxToggle>
                 </SpanRightColumnLeft>
@@ -243,7 +243,7 @@ function HeroesList() {
                     value={justFavorites}
                     onClick={() => setJustFavorites(!justFavorites)}
                   >
-                    Somente Favoritos
+                    Just the favorites
                   </ButtonHeart>
                 </SpanRightColumn>
               </>
@@ -286,7 +286,7 @@ function HeroesList() {
             <Placeholder
               isEmpty={!data || data?.length <= 0}
               status={data && !error ? 'success' : !error ? 'loading' : 'error'}
-              contentsName="heroínas ou heróis"
+              contentsName="heroes"
             >
               <>
                 {data

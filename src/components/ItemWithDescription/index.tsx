@@ -35,6 +35,7 @@ const Description = styled.div`
 
 const ItemName = styled.p`
   font-weight: 600;
+  align-self: flex-start;
   color: ${colors.fontPrimary};
   white-space: nowrap;
 `;
@@ -50,11 +51,9 @@ export default function ItemWithDescription({
       <ItemName>{itemName}</ItemName>
       <Description>
         {descriptionLogo && <span>{descriptionLogo}</span>}
-        {description && (
-          <span>
-            <p>{description}</p>
-          </span>
-        )}
+        <span>
+          <p>{description}</p>
+        </span>
       </Description>
     </ItemWithDescriptionWrapper>
   );

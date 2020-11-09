@@ -8,6 +8,7 @@ import useLocalStorage, { writeStorage } from '@rehooks/local-storage';
 import responsive from 'core/assets/styles/responsive';
 
 import HeroCard from 'components/HeroCard';
+import Placeholder from 'components/Placeholder';
 
 import { Comic } from './model';
 
@@ -34,7 +35,7 @@ interface ComicListProps {
   onLastComicDate: (date: string) => void;
 }
 
-const publicKey = '75b68a884f36ba6b7d251c6bcbe88f8d';
+const publicKey = 'f909b33f6c6bf87364b06472a2c1d21d';
 const url = (characterId: number) =>
   `https://gateway.marvel.com:443/v1/public/characters/${characterId}/comics`;
 
@@ -51,7 +52,7 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
   const isMaxFavorites = favorites.length >= 5;
 
   const pageSize = 10;
-  const { data, isValidating, size, setSize } = useSWRInfinite<
+  const { data, error, isValidating, size, setSize } = useSWRInfinite<
     Data,
     AxiosError
   >(
@@ -101,34 +102,48 @@ function ComicList({ id, onLastComicDate }: ComicListProps) {
   }, [data, onLastComicDate]);
 
   return (
-    <ComicListSection ref={infiniteRef}>
-      {data
-        ? data?.map((pages) =>
-            pages.results.map((result) => {
-              const favorited =
-                favorites.filter((favorite) => favorite === result.id).length >
-                0;
-              return (
+    <Placeholder
+      isEmpty={data && data[0].count < 1 ? true : false}
+      contentsName="HQs"
+      status={error ? 'error' : data ? 'success' : 'loading'}
+    >
+      <>
+        <h3>Last Releases</h3>
+        <ComicListSection ref={infiniteRef}>
+          {data
+            ? data?.map((pages) =>
+                pages.results.map((result) => {
+                  const favorited =
+                    favorites.filter((favorite) => favorite === result.id)
+                      .length > 0;
+                  return (
+                    <HeroCard
+                      height="210px"
+                      width="190px"
+                      alt={result.title}
+                      disabled={isMaxFavorites && !favorited}
+                      favorite={favorited}
+                      imageSrc={
+                        result.thumbnail.path + '.' + result.thumbnail.extension
+                      }
+                      name={result.title}
+                      onClick={() => handleHearthClick(favorited, result.id)}
+                      key={result.id}
+                    />
+                  );
+                })
+              )
+            : [...Array(pageSize * size)].map((value) => (
                 <HeroCard
+                  loading={true}
+                  key={value}
                   height="210px"
-                  width="190px"
-                  alt={result.title}
-                  disabled={isMaxFavorites && !favorited}
-                  favorite={favorited}
-                  imageSrc={
-                    result.thumbnail.path + '.' + result.thumbnail.extension
-                  }
-                  name={result.title}
-                  onClick={() => handleHearthClick(favorited, result.id)}
-                  key={result.id}
+                  width="210px"
                 />
-              );
-            })
-          )
-        : [...Array(pageSize * size)].map((value) => (
-            <HeroCard loading={true} key={value} height="210px" width="210px" />
-          ))}
-    </ComicListSection>
+              ))}
+        </ComicListSection>
+      </>
+    </Placeholder>
   );
 }
 

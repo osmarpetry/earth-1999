@@ -43,7 +43,7 @@ export default function HeroDetails({
 }: HeroDetailsProps) {
   const ReleaseDateSkeleton = () => (
     <ItemWithDescription
-      itemName="Último lançamento"
+      itemName="Last release"
       description={
         <ContentLoader
           height={sizes.lineHeightParagraph}
@@ -90,7 +90,7 @@ export default function HeroDetails({
             </span>
           </span>
           <ContentLoader
-              width='100%'
+            width="100%"
             height={'170px'}
             style={{ borderRadius: '3px', paddingRight: '10px' }}
           >
@@ -100,7 +100,7 @@ export default function HeroDetails({
             <div style={{ display: 'flex' }}>
               <div style={{ marginRight: '50px' }}>
                 <ItemWithDescription
-                  itemName="Quadrinhos"
+                  itemName="HQs"
                   hasTwoLines
                   description={
                     <ContentLoader
@@ -115,7 +115,7 @@ export default function HeroDetails({
                 />
               </div>
               <ItemWithDescription
-                itemName="Eventos"
+                itemName="Events"
                 hasTwoLines
                 description={
                   <ContentLoader
@@ -167,44 +167,39 @@ export default function HeroDetails({
         <p>
           {hero?.description
             ? hero?.description
-            : `No description availble to: ${hero?.name} D=`}
+            : `No description availble to: ${hero?.name} hero`}
         </p>
-
-        {hero && (
-          <div style={{ marginTop: '15px' }}>
-            <div style={{ display: 'flex' }}>
-              <div style={{ marginRight: '50px' }}>
-                <ItemWithDescription
-                  itemName="Quadrinhos"
-                  hasTwoLines
-                  description={hero?.comics.available}
-                  descriptionLogo={<HQLogo />}
-                />
-              </div>
+        <div style={{ marginTop: '15px' }}>
+          <div style={{ display: 'flex' }}>
+            <div style={{ marginRight: '50px' }}>
               <ItemWithDescription
-                itemName="Eventos"
+                itemName="HQs"
                 hasTwoLines
-                description={hero?.events.available}
-                descriptionLogo={<MovieLogo />}
+                description={hero?.comics.available}
+                descriptionLogo={<HQLogo />}
               />
             </div>
-            <div style={{ marginTop: '10px' }}>
-
+            <ItemWithDescription
+              itemName="Events"
+              hasTwoLines
+              description={hero?.events.available}
+              descriptionLogo={<MovieLogo />}
+            />
+          </div>
+          <div style={{ marginTop: '10px' }}>
             {lastRelease ? (
-                <ItemWithDescription
-                  itemName="Último lançamento"
-                  description={format(
-                    new Date(lastRelease) || new Date(),
-                    'dd MMM. yyyy'
-                  )}
-                />
+              <ItemWithDescription
+                itemName="Last release"
+                description={format(
+                  new Date(lastRelease) || new Date(),
+                  'dd MMM. yyyy'
+                )}
+              />
             ) : (
               <ReleaseDateSkeleton />
             )}
           </div>
-          </div>
-
-        )}
+        </div>
       </div>
     </>
   );

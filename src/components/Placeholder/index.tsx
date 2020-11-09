@@ -1,4 +1,8 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { FC } from 'react';
+import styled from 'styled-components';
+
+import spiderman from './logo192.png';
 
 interface PlaceholderProps {
   status: 'loading' | 'success' | 'error';
@@ -7,6 +11,11 @@ interface PlaceholderProps {
   children: React.ReactElement;
 }
 
+const PlaceholderWrapper = styled.div`
+  text-align: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const Placeholder: FC<PlaceholderProps> = ({
   status,
@@ -20,18 +29,49 @@ const Placeholder: FC<PlaceholderProps> = ({
     message: React.ReactElement
   ) => {
     if (state === 'empty') {
-      return <h1>Vazio</h1>;
+      return (
+        <PlaceholderWrapper>
+          {title}
+          <img src={spiderman} alt="" />
+          {message}
+        </PlaceholderWrapper>
+      );
     }
-    return <h1>Erro</h1>
+    return (
+      <PlaceholderWrapper>
+        {title}
+        <img src={spiderman} alt="" />
+        {message}
+      </PlaceholderWrapper>
+    );
   };
 
   if (status === 'error') {
-    return renderState('error', <h1>Erro</h1>, <p>Tenta na próxima</p>)
+    return renderState(
+      'error',
+      <h1>Ops! Something wrong just happen with the {contentsName} data!</h1>,
+      <p>
+        Please, open an issue on
+        <a href="https://github.com/osmarpetry" target="_blank">
+          {' '}
+          my Github
+        </a>
+      </p>
+    );
   }
 
   if (isEmpty && status === 'success') {
-    return renderState('empty', <h1>Vazio</h1>, <p>Tenta na próxima</p>)
-
+    return renderState(
+      'empty',
+      <h1>No {contentsName} found!</h1>,
+      <p>
+        Please, open an issue on
+        <a href="https://github.com/osmarpetry" target="_blank">
+          {' '}
+          my Github
+        </a>
+      </p>
+    );
   }
 
   return children;
