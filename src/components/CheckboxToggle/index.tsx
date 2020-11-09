@@ -15,10 +15,12 @@ export default function CheckboxToggle({
 }: CheckboxToggleProps) {
   return (
     <CheckboxTogleWrapper>
-      <label htmlFor='checkbox'>{children && children}</label>
+      <label htmlFor='checkbox' aria-labelledby='checkbox'>{children && children}</label>
       <CheckBoxToggleStyled
+        data-testid='checkbox-input'
         type='checkbox'
         name='checkbox'
+        id='checkbox'
         defaultChecked={false}
         defaultValue='Teste'
         checked={checked}
