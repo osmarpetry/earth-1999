@@ -14,8 +14,6 @@ import { GlobalStyle } from 'core/assets/styles/global';
 import HeroesList from './containers/HeroesList';
 import HeroDetails from 'containers/HeroDetails';
 
-console.log(process.env.NODE_ENV, appVersion);
-
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
     dsn:
