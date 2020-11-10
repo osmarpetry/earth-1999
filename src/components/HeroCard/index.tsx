@@ -13,12 +13,12 @@ export interface HeroCardProps {
   alt?: string
   disabled?: boolean
   favorite?: boolean
-  height: string
+  height?: string
   imageSrc?: string
   linkTo?: string
   loading?: boolean
   name?: string
-  width: string
+  width?: string
   onClick?: () => void
 }
 
@@ -26,12 +26,12 @@ export default function HeroCard({
   alt = '',
   disabled = false,
   favorite = false,
-  height,
+  height = 'auto',
   imageSrc = '',
   linkTo,
   loading = false,
   name = '',
-  width,
+  width = 'auto',
   onClick = () => {}
 }: HeroCardProps) {
   if (loading) {
@@ -76,7 +76,12 @@ export default function HeroCard({
       )}
       <CardFooter>
         <HeroName>{name}</HeroName>
-        <ButtonHeart value={favorite} disabled={disabled} onClick={onClick} />
+        <ButtonHeart
+          dataTestid='button-heart'
+          value={favorite}
+          disabled={disabled}
+          onClick={onClick}
+        />
       </CardFooter>
     </HeroCardStyled>
   )

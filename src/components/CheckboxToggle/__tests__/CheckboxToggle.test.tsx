@@ -6,17 +6,29 @@ import CheckboxToggle from 'components/CheckboxToggle'
 
 afterEach(cleanup)
 
-it('should trigger the onClick event when input is clicked', () => {
-  const onClick = jest.fn()
-  const { getByTestId } = render(<CheckboxToggle onClick={onClick} />)
+it('should match CheckboxToggle snapshot', () => {
+  expect(
+    render(<CheckboxToggle onChange={jest.fn()} checked={true} />)
+  ).toMatchSnapshot()
+})
 
-  expect(onClick).not.toBeCalled()
-  fireEvent.click(getByTestId('checkbox-input'));
-  expect(onClick).toBeCalledTimes(1)
+it('should trigger the onChange event when input is clicked', () => {
+  const onChange = jest.fn()
+  const { getByTestId } = render(
+    <CheckboxToggle onChange={onChange} checked={false} />
+  )
+
+  expect(onChange).not.toBeCalled()
+  fireEvent.click(getByTestId('checkbox-input'))
+  expect(onChange).toBeCalledTimes(1)
 })
 
 it('should render the label children', () => {
-  const { getByText } = render(<CheckboxToggle>My checkbox label</CheckboxToggle>)
+  const { getByText } = render(
+    <CheckboxToggle onChange={jest.fn()} checked={true}>
+      My checkbox label
+    </CheckboxToggle>
+  )
 
-  expect(getByText('My checkbox label')).toBeTruthy();
+  expect(getByText('My checkbox label')).toBeTruthy()
 })

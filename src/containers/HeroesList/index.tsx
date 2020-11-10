@@ -165,7 +165,7 @@ function HeroesList() {
                 <SpanRightColumnLeft>
                   <CheckboxToggle
                     checked={orderBy.includes('name')}
-                    onClick={handleOrderBy}>
+                    onChange={handleOrderBy}>
                     <CheckboxChildren>
                       <HeroLogo />
                       <p>Order by name - A/Z</p>

@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match InputSearch with sugestions close snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        style="position: relative; width: 100%;"
+      >
+        <div
+          class="sc-bdfBwQ ikLnIo input"
+        >
+          <img
+            alt="Input search logo"
+            src="SearchIcon.svg"
+          />
+          <input
+            class="sc-gsTCUz HbFzO"
+            id="search"
+            name="search"
+            placeholder="Type something..."
+          />
+          <label
+            for="search"
+          >
+            Hero's name
+          </label>
+        </div>
+        <ul
+          class="sc-dlfnbm duLtPO"
+          style="position: absolute; width: 100%;"
+        >
+          <li>
+            <span
+              class="sc-eCssSg cGrfJp"
+            >
+              hul
+            </span>
+          </li>
+          <li>
+            <a
+              class="sc-hKgILt gARJzy"
+              data-testid="route"
+              href="/hero/1"
+            >
+              Hulk
+            </a>
+          </li>
+          <li>
+            <a
+              class="sc-hKgILt gARJzy"
+              data-testid="route"
+              href="/hero/1"
+            >
+              Spider-Man
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      style="position: relative; width: 100%;"
+    >
+      <div
+        class="sc-bdfBwQ ikLnIo input"
+      >
+        <img
+          alt="Input search logo"
+          src="SearchIcon.svg"
+        />
+        <input
+          class="sc-gsTCUz HbFzO"
+          id="search"
+          name="search"
+          placeholder="Type something..."
+        />
+        <label
+          for="search"
+        >
+          Hero's name
+        </label>
+      </div>
+      <ul
+        class="sc-dlfnbm duLtPO"
+        style="position: absolute; width: 100%;"
+      >
+        <li>
+          <span
+            class="sc-eCssSg cGrfJp"
+          >
+            hul
+          </span>
+        </li>
+        <li>
+          <a
+            class="sc-hKgILt gARJzy"
+            data-testid="route"
+            href="/hero/1"
+          >
+            Hulk
+          </a>
+        </li>
+        <li>
+          <a
+            class="sc-hKgILt gARJzy"
+            data-testid="route"
+            href="/hero/1"
+          >
+            Spider-Man
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`should match InputSearch with sugestions open snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        style="position: relative; width: 100%;"
+      >
+        <div
+          class="sc-bdfBwQ ikLnIo input"
+        >
+          <img
+            alt="Input search logo"
+            src="SearchIcon.svg"
+          />
+          <input
+            class="sc-gsTCUz HbFzO"
+            id="search"
+            name="search"
+            placeholder="Type something..."
+          />
+          <label
+            for="search"
+          >
+            Hero's name
+          </label>
+        </div>
+        <ul
+          class="sc-dlfnbm duLtPO"
+          style="position: absolute; width: 100%;"
+        >
+          <li>
+            <span
+              class="sc-eCssSg cGrfJp"
+            >
+              hul
+            </span>
+          </li>
+          <li>
+            <a
+              class="sc-hKgILt gARJzy"
+              data-testid="route"
+              href="/hero/1"
+            >
+              Hulk
+            </a>
+          </li>
+          <li>
+            <a
+              class="sc-hKgILt gARJzy"
+              data-testid="route"
+              href="/hero/1"
+            >
+              Spider-Man
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      style="position: relative; width: 100%;"
+    >
+      <div
+        class="sc-bdfBwQ ikLnIo input"
+      >
+        <img
+          alt="Input search logo"
+          src="SearchIcon.svg"
+        />
+        <input
+          class="sc-gsTCUz HbFzO"
+          id="search"
+          name="search"
+          placeholder="Type something..."
+        />
+        <label
+          for="search"
+        >
+          Hero's name
+        </label>
+      </div>
+      <ul
+        class="sc-dlfnbm duLtPO"
+        style="position: absolute; width: 100%;"
+      >
+        <li>
+          <span
+            class="sc-eCssSg cGrfJp"
+          >
+            hul
+          </span>
+        </li>
+        <li>
+          <a
+            class="sc-hKgILt gARJzy"
+            data-testid="route"
+            href="/hero/1"
+          >
+            Hulk
+          </a>
+        </li>
+        <li>
+          <a
+            class="sc-hKgILt gARJzy"
+            data-testid="route"
+            href="/hero/1"
+          >
+            Spider-Man
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

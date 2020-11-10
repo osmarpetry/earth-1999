@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 
 import { AllHeroes } from 'core/utils/heroes'
 
-import SearchIcon from 'assets/busca/Lupa/Shape@1,5x.svg'
+import SearchIcon from 'assets/busca/Lupa/SearchIcon.svg'
 import useOutsideAlerter from 'core/utils/hooks/useOutsideAlerter'
 
 import {
@@ -59,6 +59,7 @@ export default function SearchInput({
           isSugestionsOpen={isSugestionOpen ? true : false}
           placeholder={placeholder}
           name={name}
+          id={name}
           onChange={event => onChange && onChange(event.target.value)}
         />
         <label htmlFor={name}>{label}</label>
@@ -72,6 +73,7 @@ export default function SearchInput({
               <li key={sugestion.name}>
                 {typeof sugestion.id === 'number' ? (
                   <SugestionButtonItem
+                    data-testid='route'
                     to={`/hero/${sugestion.id}`}
                     onClick={() =>
                       onSugestionsCloseClick &&

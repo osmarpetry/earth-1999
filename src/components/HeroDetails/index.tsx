@@ -10,8 +10,8 @@ import ButtonHeart from 'components/ButtonHeart'
 import HeartIcon from 'components/ButtonHeart/HeartIcon'
 import ItemWithDescription from 'components/ItemWithDescription'
 
-import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg'
-import { ReactComponent as MovieLogo } from 'assets/icones/video/Shape@1,5x.svg'
+import { ReactComponent as HQLogo } from 'assets/icones/book/BookLogo.svg'
+import { ReactComponent as MovieLogo } from 'assets/icones/video/VideoLogo.svg'
 
 import { Image } from './styled'
 
@@ -19,7 +19,10 @@ interface HeroDetailsProps {
   disabled: boolean
   favorited: boolean
   loading?: boolean
-  hero?: Hero
+  hero?: Pick<Hero, 'id' | 'thumbnail' | 'name' | 'description'> & {
+    comics: Pick<Hero['comics'], 'available'>
+    events: Pick<Hero['events'], 'available'>
+  }
   lastRelease: string
   handleButtonClick: (favorited: boolean, heroId: number) => void
 }
@@ -142,6 +145,7 @@ export default function HeroDetails({
           }}>
           <h1>{hero?.name}</h1>
           <ButtonHeart
+            dataTestid='button-heart'
             value={favorited}
             disabled={disabled}
             onClick={() => handleButtonClick(favorited, hero?.id || 0)}

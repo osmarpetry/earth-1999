@@ -5,13 +5,13 @@ import { CheckboxTogleWrapper, CheckBoxToggleStyled } from './styled'
 export interface CheckboxToggleProps {
   checked?: boolean
   children?: React.ReactNode
-  onClick?: () => void
+  onChange?: () => void
 }
 
 export default function CheckboxToggle({
   checked,
   children,
-  onClick
+  onChange
 }: CheckboxToggleProps) {
   return (
     <CheckboxTogleWrapper>
@@ -24,7 +24,7 @@ export default function CheckboxToggle({
         defaultChecked={false}
         defaultValue='Teste'
         checked={checked}
-        onClick={onClick}
+        onClick={onChange}
       />
     </CheckboxTogleWrapper>
   )
