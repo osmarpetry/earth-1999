@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { Reset } from 'styled-reset'
@@ -9,11 +9,11 @@ import { version as appVersion } from './../package.json'
 
 import reportWebVitals from './reportWebVitals'
 
-import { GlobalStyle } from 'core/assets/styles/global'
+import GlocalStyleContainer from 'core/assets/styles/GlocalStyleContainer'
 
-import GoogleAnalytics from 'GoogleAnalytics'
-import HeroesList from 'containers/HeroesList'
-import HeroDetails from 'containers/HeroDetails'
+const GoogleAnalytics = lazy(() => import('GoogleAnalytics'))
+const HeroDetails = lazy(() => import('containers/HeroDetails'))
+const HeroesList = lazy(() => import('containers/HeroesList'))
 
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
@@ -29,13 +29,20 @@ if (process.env.NODE_ENV !== 'development') {
 ReactDOM.render(
   <React.StrictMode>
     <Reset />
-    <GlobalStyle />
     <BrowserRouter>
-      {process.env.NODE_ENV !== 'development' && <GoogleAnalytics />}
-      <Switch>
-        <Route exact path='/' component={HeroesList} />
-        <Route path='/hero/:id' component={HeroDetails} />
-      </Switch>
+      <GlocalStyleContainer>
+        {process.env.NODE_ENV !== 'development' && (
+          <Suspense fallback={<></>}>
+            <GoogleAnalytics />
+          </Suspense>
+        )}
+        <Switch>
+          <Suspense fallback={<></>}>
+            <Route exact path='/' component={HeroesList} />
+            <Route path='/hero/:id' component={HeroDetails} />
+          </Suspense>
+        </Switch>
+      </GlocalStyleContainer>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

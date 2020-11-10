@@ -4,8 +4,9 @@ import styled from 'styled-components'
 import SectionHeader from 'components/SectionHeader'
 import CheckboxToggle from 'components/CheckboxToggle'
 
-import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg'
 import ButtonHeart from 'components/ButtonHeart'
+
+import { ReactComponent as HeroLogo } from 'assets/icones/heroi/HeroLogo.svg'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

@@ -15,7 +15,7 @@ import Placeholder from 'components/Placeholder'
 import SearchInput from 'components/InputSearch'
 import SectionHeader from 'components/SectionHeader'
 
-import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg'
+import { ReactComponent as HeroLogo } from 'assets/icones/heroi/HeroLogo.svg'
 import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg'
 
 import { Hero } from './model'

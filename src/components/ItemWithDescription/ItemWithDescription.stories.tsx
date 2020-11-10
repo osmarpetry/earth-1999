@@ -5,8 +5,8 @@ import ItemWithDescription, {
   ItemWithDescriptionProps
 } from 'components/ItemWithDescription'
 
-import { ReactComponent as HQLogo } from 'assets/icones/book/Group@1,5x.svg'
-import { ReactComponent as HeroLogo } from 'assets/icones/heroi/noun_Superhero_2227044@1,5x.svg'
+import { ReactComponent as HQLogo } from 'assets/icones/book/BookLogo.svg'
+import { ReactComponent as HeroLogo } from 'assets/icones/heroi/HeroLogo.svg'
 
 export default {
   title: 'Components/ItemWithDescription',

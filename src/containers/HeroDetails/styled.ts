@@ -71,7 +71,6 @@ export const Section = styled.section`
   @media only screen and (max-width: ${responsive.mobile}) {
     padding: 0 10px;
   }
-  background: gray;
   height: 100%;
   width: 100%;
 `

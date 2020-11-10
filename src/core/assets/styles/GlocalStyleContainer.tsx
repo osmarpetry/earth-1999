@@ -1,12 +1,21 @@
+import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import colors from './colors'
 import sizes from './sizes'
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle<{ isSecondaryBackground?: boolean }>`
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+   #root {
+    background: ${({ isSecondaryBackground }) =>
+      isSecondaryBackground
+        ? colors.backgroundColorSecondary
+        : colors.backgroundColorPrimary};
   }
 
   html, body {
@@ -51,4 +60,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 `
 
-export default GlobalStyle
+function GlobalStyleContainer(props: any) {
+  return (
+    <>
+      <GlobalStyle isSecondaryBackground={props.location.pathname.includes('hero')} />
+      {props.children}
+    </>
+  )
+}
+
+export default withRouter(GlobalStyleContainer)
