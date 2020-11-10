@@ -22,7 +22,7 @@ export const SectionHeaderStyled = styled.header`
   margin: 20px 0;
 `
 
-export const SectionHeader2 = styled.section`
+export const SectionStyled = styled.section`
   text-align: center;
   display: flex;
   flex-direction: column;

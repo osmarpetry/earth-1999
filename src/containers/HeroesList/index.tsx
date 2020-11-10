@@ -21,7 +21,7 @@ import { ReactComponent as MarvelHeaderLogo } from 'assets/logo/Group@1,5x.svg'
 import { Hero } from './model'
 
 import {
-  SectionHeader2,
+  SectionStyled,
   SectionHeaderStyled,
   SpanRightColumnLeft,
   CheckboxChildren,
@@ -124,7 +124,7 @@ function HeroesList() {
 
   return (
     <div>
-      <SectionHeader2>
+      <SectionStyled>
         <header>
           <MarvelHeaderLogo width='228px' />
           <h2>EXPLORE THE UNIVERSE</h2>
@@ -151,7 +151,7 @@ function HeroesList() {
             />
           </div>
         </main>
-      </SectionHeader2>
+      </SectionStyled>
       <section ref={infiniteRef as any} style={{ margin: '0 10px' }}>
         <SectionHeaderStyled>
           <SectionHeader
