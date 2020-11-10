@@ -9,7 +9,7 @@ It's a React.js web application from the open Marvel's comics API
 #### What this application has
 
 - Storybook
-- Visual tests with Storybook
+- Visual tests on Storybook with Chromatic
 - Unit Tests using @testing-library
 - E2E Cypress with Cucumber (BDD) tests
 - Typescript
