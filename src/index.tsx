@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
@@ -28,22 +29,24 @@ if (process.env.NODE_ENV !== 'development') {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Reset />
-    <BrowserRouter>
-      <GlocalStyleContainer>
-        {process.env.NODE_ENV !== 'development' && (
-          <Suspense fallback={<></>}>
-            <GoogleAnalytics />
-          </Suspense>
-        )}
-        <Switch>
-          <Suspense fallback={<></>}>
-            <Route exact path='/' component={HeroesList} />
-            <Route path='/hero/:id' component={HeroDetails} />
-          </Suspense>
-        </Switch>
-      </GlocalStyleContainer>
-    </BrowserRouter>
+    <Sentry.ErrorBoundary>
+      <Reset />
+      <BrowserRouter>
+        <GlocalStyleContainer>
+          {process.env.NODE_ENV !== 'development' && (
+            <Suspense fallback={<></>}>
+              <GoogleAnalytics />
+            </Suspense>
+          )}
+          <Switch>
+            <Suspense fallback={<></>}>
+              <Route exact path='/' component={HeroesList} />
+              <Route path='/hero/:id' component={HeroDetails} />
+            </Suspense>
+          </Switch>
+        </GlocalStyleContainer>
+      </BrowserRouter>
+    </Sentry.ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 )

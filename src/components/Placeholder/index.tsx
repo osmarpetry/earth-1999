@@ -47,7 +47,7 @@ const Placeholder: FC<PlaceholderProps> = ({
       <h1>Ops! Something wrong just happen with the {contentsName} data!</h1>,
       <p>
         Please, open an issue on
-        <a href='https://github.com/osmarpetry' target='_blank'>
+        <a href='https://github.com/osmarpetry/earth-199999/issues' target='_blank'>
           {' '}
           my Github
         </a>
@@ -61,7 +61,7 @@ const Placeholder: FC<PlaceholderProps> = ({
       <h1>No {contentsName} found!</h1>,
       <p>
         Please, open an issue on
-        <a href='https://github.com/osmarpetry' target='_blank'>
+        <a href='https://github.com/osmarpetry/earth-199999/issues' target='_blank'>
           {' '}
           my Github
         </a>
