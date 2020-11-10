@@ -18,7 +18,7 @@ install:
 before_script:
   - yarn test
   - yarn build
-  - npx serve build -S -l 3000
+  - npx serve build -S -l 3000 &
 script:
   - yarn cy:run
 after_success:
